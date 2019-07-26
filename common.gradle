@@ -1,0 +1,49 @@
+/*
+ * Copyright (C) 2019 Codepunk, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Shared file between builds so that they can all use the same dependencies and
+ * maven repositories.
+ **/
+
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+}
+
+ext {
+    addRepos = this.&addRepos
+    config = [
+            buildTools: '28.0.3',
+            compileSdk: 28,
+            minSdk: 15,
+            targetSdk: 28,
+    ]
+    versions = [
+            androidx: [
+                    appcompat: '1.1.0-rc01',
+                    core: '1.2.0-alpha02',
+                    constraintlayout: '2.0.0-beta2',
+            ],
+            dagger: '2.16',
+            dokka: '0.9.17',
+            espresso: '3.3.0-alpha02',
+            gradle: '3.4.2',
+            junit: '4.13-beta-3',
+            kotlin: '1.3.41',
+            testrunner: '1.3.0-alpha02',
+    ]
+}
