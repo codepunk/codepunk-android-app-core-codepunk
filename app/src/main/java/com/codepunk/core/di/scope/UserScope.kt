@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2019 Codepunk, LLC
+ * Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +15,14 @@
  * limitations under the License.
  */
 
-package com.codepunk.shell
+package com.codepunk.core.di.scope
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import javax.inject.Scope
 
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
-}
+/**
+ * A [Scope] used for retaining single instances of injected dependencies throughout a logged-in
+ * user lifecycle.
+ */
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class UserScope

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2019 Codepunk, LLC
+ * Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +18,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.dokka-android'
+
+// region Android
 
 android {
+
     compileSdkVersion config.compileSdk
     buildToolsVersion config.buildTools
 
@@ -33,25 +39,177 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+
+            ext.defaultRemoteEnvironment = "LOCAL"
+            ext.loggingLevel = 1 // Essentially everything
+            ext.logLevel = "VERBOSE"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        debug {
 
+            ext.defaultRemoteEnvironment = "PRODUCTION"
+            ext.loggingLevel = 4 // android.util.Log.INFO
+            ext.logLevel = "INFO"
         }
     }
+
+    applicationVariants.all { variant ->
+
+        /*
+         * Define a BuildConfig int variable for the log level.
+         */
+        def logClass = "android.util.Log"
+        variant.buildConfigField(
+                "int",
+                "LOG_LEVEL",
+                "${logClass}.${variant.buildType.ext.logLevel}"
+        )
+
+        // TODO Create some sort of ApiEnvironment variable. Where to store it?
+        ///*
+        // * Define an additional BuildConfig enum variable that is the value of
+        // * defaultRemoteEnvironment.
+        // */
+        //def environmentClass = "com.codepunk.core.data.remote.RemoteEnvironment"
+        //variant.buildConfigField(
+        //        environmentClass,
+        //        "DEFAULT_REMOTE_ENVIRONMENT",
+        //        "${environmentClass}.valueOf(\"${variant.buildType.ext.defaultRemoteEnvironment}\")"
+        //)
+
+        /*
+         * Generate a set of preference keys that are accessible both as string resources
+         * and as BuildConfig constants.
+         */
+        makePreferenceKeys(
+                variant,
+                "ABOUT",
+                "ADD_OR_CHANGE_ACCOUNT",
+                "CATEGORY_ACCOUNTS",
+                "CURRENT_ACCOUNT_NAME",
+                "DEVELOPER_OPTIONS_AUTHENTICATED_HASH",
+                "DEVELOPER_OPTIONS_ENABLED",
+                "DEVELOPER_OPTIONS_UNLOCKED",
+                "LOG_OUT",
+                "OVERRIDE_REMOTE_URL",
+                "REMOTE_ENVIRONMENT",
+                "REMOTE_URL"
+        )
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "${rootProject.buildDir}/javadoc"
+        includeNonPublic = true
+    }
+
 }
 
+// endregion Android
+
+// region Dependencies
+
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation group: 'androidx.appcompat', name: 'appcompat', version: versions.androidx.appcompat
     implementation group: 'androidx.core', name: 'core-ktx', version: versions.androidx.core
     implementation group: 'androidx.constraintlayout', name: 'constraintlayout', version: versions.androidx.constraintlayout
+    implementation group: 'androidx.preference', name: 'preference', version: versions.androidx.preference
     implementation group: 'com.google.dagger', name: 'dagger', version: versions.dagger
+    implementation group: 'com.google.dagger', name: 'dagger-android', version: versions.dagger
+    implementation group: 'com.google.dagger', name: 'dagger-android-support', version: versions.dagger
     implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: versions.kotlin
+
+    implementation project(':doofenschmirtz')
+
+    kapt group: 'com.google.dagger', name: 'dagger-android-processor', version: versions.dagger
+    kapt group: 'com.google.dagger', name: 'dagger-compiler', version: versions.dagger
 
     testImplementation group: 'junit', name: 'junit', version: versions.junit
     androidTestImplementation group: 'androidx.test', name: 'runner', version: versions.testrunner
     androidTestImplementation group: 'androidx.test.espresso', name: 'espresso-core', version: versions.espresso
+
 }
+
+// endregion Dependencies
+
+// region Methods
+
+import com.android.utils.Pair
+import com.android.build.gradle.api.BaseVariant
+
+static def makeIntConstantValues(BaseVariant variant, Pair<String, Integer>... pairs) {
+    pairs.each { pair ->
+        def buildConfigValue = "${pair.second}"
+        variant.buildConfigField("int", pair.first, buildConfigValue)
+
+        def resourceName = pair.first.toLowerCase(Locale.US)
+        variant.resValue("integer", resourceName, pair.second.toString())
+    }
+}
+
+static def makeStringConstantValues(BaseVariant variant, Pair<String, String>... pairs) {
+    pairs.each { pair ->
+        def buildConfigValue = "\"${pair.second}\""
+        variant.buildConfigField("String", pair.first, buildConfigValue)
+
+        def resourceName = pair.first.toLowerCase(Locale.US)
+        variant.resValue("string", resourceName, pair.second)
+    }
+}
+
+static def makeKeys(BaseVariant variant, String... keys) {
+    keys.each { key ->
+        def buildConfigName = "KEY_$key"
+        def buildConfigValue = "\"${variant.applicationId}.$key\""
+        variant.buildConfigField("String", buildConfigName, buildConfigValue)
+    }
+}
+
+static def makePreferenceKeys(BaseVariant variant, String... keys) {
+    keys.each { key ->
+        def fullKey = "PREF_KEY_$key"
+        def buildConfigValue = "\"${variant.applicationId}.$fullKey\""
+        variant.buildConfigField("String", fullKey, buildConfigValue)
+
+        def resourceName = fullKey.toLowerCase(Locale.US)
+        def resourceValue = "${variant.applicationId}.$fullKey"
+        variant.resValue("string", resourceName, resourceValue)
+    }
+}
+
+def enum IntentEntityType {
+    ACTION,
+    CATEGORY,
+    EXTRA
+}
+
+static def makeIntentEntities(BaseVariant variant, IntentEntityType type, String... names) {
+    names.each { name ->
+        def lowerType = type.toString().toLowerCase(Locale.US)
+        def buildConfigName = "${type.toString()}_$name"
+        def buildConfigValue = "\"${variant.applicationId}.intent.$lowerType.$name\""
+        variant.buildConfigField("String", buildConfigName, buildConfigValue)
+
+        def resourceName = "intent_${lowerType}_${name.toLowerCase(Locale.US)}"
+        def resourceValue = "${variant.applicationId}.intent.$lowerType.$name"
+        variant.resValue("string", resourceName, resourceValue)
+    }
+}
+
+// endregion Methods

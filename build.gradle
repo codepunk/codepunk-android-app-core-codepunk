@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2019 Codepunk, LLC
+ * Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,7 @@ buildscript {
     addRepos(repositories)
     dependencies {
         classpath group: 'com.android.tools.build', name: 'gradle', version: versions.gradle
+        classpath group: 'org.jetbrains.dokka', name: 'dokka-android-gradle-plugin', version: versions.dokka
         classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: versions.kotlin
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

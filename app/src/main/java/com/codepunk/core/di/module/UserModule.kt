@@ -15,5 +15,18 @@
  * limitations under the License.
  */
 
-include ':app',':doofenschmirtz'
-project(':doofenschmirtz').projectDir = new File('libraries/codepunk/doofenschmirtz')
+package com.codepunk.core.di.module
+
+import dagger.Module
+
+/**
+ * A [Module] for injecting user session-level dependencies.
+ */
+@Module
+class UserModule {
+
+    // region Methods
+
+    // endregion Methods
+
+}

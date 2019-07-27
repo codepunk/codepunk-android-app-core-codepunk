@@ -1,4 +1,4 @@
-package com.codepunk.shell
+package com.codepunk.core
 
 import org.junit.Test
 

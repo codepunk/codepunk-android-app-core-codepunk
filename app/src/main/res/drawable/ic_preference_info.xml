@@ -16,41 +16,30 @@
   ~ limitations under the License.
   -->
 
-<layer-list
+<vector
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="24dp"
+    android:height="24dp"
+    android:tint="@color/colorPreferenceIcon"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    tools:ignore="VectorRaster"
     >
 
-    <item>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M11,7h2v2h-2z"
+        />
 
-        <shape
-            android:shape="rectangle"
-            >
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M11,11h2v6h-2z"
+        />
 
-            <solid
-                android:color="@color/colorIconBackground"
-                />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M12,2C6.48,2 2,6.48 2,12c0,5.52 4.48,10 10,10s10,-4.48 10,-10C22,6.48 17.52,2 12,2zM12,20c-4.41,0 -8,-3.59 -8,-8c0,-4.41 3.59,-8 8,-8s8,3.59 8,8C20,16.41 16.41,20 12,20z"
+        />
 
-        </shape>
-
-    </item>
-
-    <item>
-
-        <shape
-            android:shape="rectangle"
-            >
-
-            <gradient
-                android:type="radial"
-                android:centerX="0"
-                android:centerY="0"
-                android:startColor="#40ffffff"
-                android:endColor="@android:color/transparent"
-                android:gradientRadius="108dp"
-                />
-
-        </shape>
-
-    </item>
-
-</layer-list>
+</vector>

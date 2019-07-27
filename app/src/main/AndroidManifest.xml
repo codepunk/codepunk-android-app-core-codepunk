@@ -1,24 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:dist="http://schemas.android.com/apk/distribution"
-          package="com.codepunk.shell">
+          package="com.codepunk.core">
 
     <dist:module dist:instant="true"/>
 
+    <!-- region Application -->
+
     <application
+        android:name=".CodepunkApp"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/full_backup_content"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+
+        <!-- region Activities -->
+
+        <activity android:name="com.codepunk.core.presentation.main.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
+
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="codepunk"
+                    android:scheme="codepunk"/>
             </intent-filter>
+
         </activity>
+
+        <!-- endregion Activities -->
+
     </application>
+
+    <!-- endregion Application -->
 
 </manifest>

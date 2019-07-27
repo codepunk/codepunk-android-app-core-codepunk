@@ -15,5 +15,27 @@
  * limitations under the License.
  */
 
-include ':app',':doofenschmirtz'
-project(':doofenschmirtz').projectDir = new File('libraries/codepunk/doofenschmirtz')
+package com.codepunk.core.di.module
+
+import com.codepunk.core.presentation.main.MainActivity
+import com.codepunk.doofenschmirtz.di.scope.ActivityScope
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+
+/**
+ * The [Module] used for dependency injection into all activities in the app.
+ */
+@Module
+interface ActivityBuildersModule {
+
+    // region Methods
+
+    /**
+     * Contributes an Android injector to [MainActivity].
+     */
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
+    fun contributeMainActivityInjector(): MainActivity
+
+    // endregion Methods
+}
