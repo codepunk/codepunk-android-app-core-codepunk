@@ -133,7 +133,7 @@ dependencies {
     implementation group: 'com.google.dagger', name: 'dagger', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android-support', version: versions.dagger
-    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: versions.kotlin
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: versions.kotlin
 
     implementation project(':doofenschmirtz')
 

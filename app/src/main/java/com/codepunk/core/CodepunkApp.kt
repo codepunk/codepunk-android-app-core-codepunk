@@ -26,6 +26,7 @@ import androidx.preference.PreferenceManager
 import com.codepunk.core.BuildConfig.PREF_KEY_REMOTE_ENVIRONMENT
 import com.codepunk.core.BuildConfig.PREF_KEY_REMOTE_URL
 import com.codepunk.core.di.component.DaggerAppComponent
+import com.codepunk.doofenschmirtz.borrowed.android.preference.YesNoPreference
 import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -90,6 +91,9 @@ class CodepunkApp :
     lateinit var remoteEnvironment: RemoteEnvironment
         private set
     */
+
+    // TODO TEMP
+    private lateinit var pref: YesNoPreference
 
     // endregion Properties
 
