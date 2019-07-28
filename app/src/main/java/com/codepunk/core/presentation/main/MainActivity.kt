@@ -17,8 +17,10 @@
 
 package com.codepunk.core.presentation.main
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.codepunk.core.R
@@ -51,15 +53,26 @@ class MainActivity :
      */
     private lateinit var binding: ActivityMainBinding
 
+    /**
+     * The activity's [ContentLoadingProgressBar].
+     */
+    @Suppress("WEAKER_ACCESS")
+    lateinit var loadingProgressBar: ContentLoadingProgressBar
+        private set
+
     // endregion Properties
 
     // region Lifecycle methods
 
+    /**
+     * Sets the content view for the activity.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        // TODO setSupportActionBar(binding.toolbar)
+        loadingProgressBar = binding.loadingProgress
+        setSupportActionBar(binding.toolbar)
     }
 
     // endregion Lifecycle methods

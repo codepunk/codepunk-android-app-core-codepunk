@@ -16,16 +16,16 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">  <!-- TODO NoActionBar -->
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/settings_settings"
+        app:showAsAction="never"
+        />
 
-        <item name="actionOverflowButtonStyle">@style/Overflow</item>
-    </style>
-
-</resources>
+</menu>

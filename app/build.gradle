@@ -100,6 +100,18 @@ android {
                 "REMOTE_URL"
         )
 
+        /*
+         * Generate a set of intent actions that are accessible both as string resources
+         * and as BuildConfig constants.
+         */
+        makeIntentEntities(
+                variant,
+                IntentEntityType.ACTION,
+                "AUTHENTICATION",
+                "MAIN",
+                "SETTINGS"
+        )
+
     }
 
     compileOptions {
@@ -129,6 +141,8 @@ dependencies {
     implementation group: 'androidx.appcompat', name: 'appcompat', version: versions.androidx.appcompat
     implementation group: 'androidx.core', name: 'core-ktx', version: versions.androidx.core
     implementation group: 'androidx.constraintlayout', name: 'constraintlayout', version: versions.androidx.constraintlayout
+    implementation group: 'androidx.navigation', name: 'navigation-fragment-ktx', version: versions.androidx.navigation
+    implementation group: 'androidx.navigation', name: 'navigation-ui-ktx', version: versions.androidx.navigation
     implementation group: 'androidx.preference', name: 'preference', version: versions.androidx.preference
     implementation group: 'com.google.dagger', name: 'dagger', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android', version: versions.dagger
@@ -143,7 +157,6 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: versions.junit
     androidTestImplementation group: 'androidx.test', name: 'runner', version: versions.testrunner
     androidTestImplementation group: 'androidx.test.espresso', name: 'espresso-core', version: versions.espresso
-
 }
 
 // endregion Dependencies
