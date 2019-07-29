@@ -69,18 +69,6 @@ android {
                 "${logClass}.${variant.buildType.ext.logLevel}"
         )
 
-        // TODO Create some sort of ApiEnvironment variable. Where to store it?
-        ///*
-        // * Define an additional BuildConfig enum variable that is the value of
-        // * defaultRemoteEnvironment.
-        // */
-        //def environmentClass = "com.codepunk.core.data.remote.RemoteEnvironment"
-        //variant.buildConfigField(
-        //        environmentClass,
-        //        "DEFAULT_REMOTE_ENVIRONMENT",
-        //        "${environmentClass}.valueOf(\"${variant.buildType.ext.defaultRemoteEnvironment}\")"
-        //)
-
         /*
          * Generate a set of preference keys that are accessible both as string resources
          * and as BuildConfig constants.
@@ -91,13 +79,13 @@ android {
                 "ADD_OR_CHANGE_ACCOUNT",
                 "CATEGORY_ACCOUNTS",
                 "CURRENT_ACCOUNT_NAME",
-                "DEVELOPER_OPTIONS_AUTHENTICATED_HASH",
-                "DEVELOPER_OPTIONS_ENABLED",
-                "DEVELOPER_OPTIONS_UNLOCKED",
+                "DEV_OPTIONS_AUTH_ENVIRONMENT",
+                "DEV_OPTIONS_AUTHENTICATED_HASH",
+                "DEV_OPTIONS_BASE_URL",
+                "DEV_OPTIONS_ENABLED",
+                "DEV_OPTIONS_UNLOCKED",
                 "LOG_OUT",
-                "OVERRIDE_REMOTE_URL",
-                "REMOTE_ENVIRONMENT",
-                "REMOTE_URL"
+                "OVERRIDE_URL"
         )
 
         /*
@@ -111,6 +99,58 @@ android {
                 "MAIN",
                 "SETTINGS"
         )
+
+        /*
+         * Generate a set of unique bundle keys that are accessible as BuildConfig constants.
+         */
+        /*
+        makeKeys(
+                variant,
+                "CLIENT_ID",
+                "CLIENT_SECRET"
+        )
+        */
+
+        /*
+         * Pull private values from gradle.properties
+         * (See http://www.rainbowbreeze.it/environmental-variables-api-key-and-secret-buildconfig-and-android-studio/)
+         * (Also see https://medium.com/@ericfu/securely-storing-secrets-in-an-android-application-501f030ae5a3
+         *  for info about using KeyStore)
+         */
+        def codepunkLocalClientIdProp = project.hasProperty("CodepunkLocalClientIdProp") ?
+                "\"${CodepunkLocalClientIdProp}\"" :
+                "/**** Define Codepunk Local Client Id ****/ \"\""
+        variant.buildConfigField("String", "CODEPUNK_LOCAL_CLIENT_ID", codepunkLocalClientIdProp)
+
+        def codepunkLocalClientSecretProp = project.hasProperty("CodepunkLocalClientSecretProp") ?
+                "\"${CodepunkLocalClientSecretProp}\"" :
+                "/**** Define Codepunk Local Client Secret ****/ \"\""
+        variant.buildConfigField("String", "CODEPUNK_LOCAL_CLIENT_SECRET", codepunkLocalClientSecretProp)
+
+        def codepunkDevClientIdProp = project.hasProperty("CodepunkDevClientIdProp") ?
+                "\"${CodepunkDevClientIdProp}\"" :
+                "/**** Define Codepunk Dev Client Id ****/ \"\""
+        variant.buildConfigField("String", "CODEPUNK_DEV_CLIENT_ID", codepunkDevClientIdProp)
+
+        def codepunkDevClientSecretProp = project.hasProperty("CodepunkDevClientSecretProp") ?
+                "\"${CodepunkDevClientSecretProp}\"" :
+                "/**** Define Codepunk Dev Client Secret ****/ \"\""
+        variant.buildConfigField("String", "CODEPUNK_DEV_CLIENT_SECRET", codepunkDevClientSecretProp)
+
+        def codepunkProdClientIdProp = project.hasProperty("CodepunkProdClientIdProp") ?
+                "\"${CodepunkProdClientIdProp}\"" :
+                "/**** Define Codepunk Prod Client Id ****/ \"\""
+        variant.buildConfigField("String", "CODEPUNK_PROD_CLIENT_ID", codepunkProdClientIdProp)
+
+        def codepunkProdClientSecretProp = project.hasProperty("CodepunkProdClientSecretProp") ?
+                "\"${CodepunkProdClientSecretProp}\"" :
+                "/**** Define Codepunk Prod Client Secret ****/ \"\""
+        variant.buildConfigField("String", "CODEPUNK_PROD_CLIENT_SECRET", codepunkProdClientSecretProp)
+
+        def developerOptionsPasswordHash = project.hasProperty("DeveloperOptionsPasswordHash") ?
+                "\"${DeveloperOptionsPasswordHash}\"" :
+                "/**** Define Developer Password Hash ****/ \"\""
+        variant.buildConfigField("String", "DEVELOPER_OPTIONS_PASSWORD_HASH", developerOptionsPasswordHash)
 
     }
 

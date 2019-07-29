@@ -18,20 +18,19 @@
 package com.codepunk.core.presentation.main
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.view.View.OnClickListener
 import androidx.databinding.DataBindingUtil
-import com.codepunk.core.BuildConfig.ACTION_SETTINGS
+import androidx.fragment.app.Fragment
 import com.codepunk.core.R
 import com.codepunk.core.databinding.FragmentMainBinding
+import com.codepunk.doofenschmirtz.net.AuthManager
 import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-// TODO All the things with connecting to Session, repository etc.
+// TODO All the things with connecting to Settings, Session, repository etc.
 
 /**
  * The main [Fragment] for the Codepunk app.
@@ -48,6 +47,13 @@ class MainFragment:
     @Suppress("UNUSED")
     @Inject
     lateinit var loginator: FormattingLoginator
+
+    /**
+     * TODO Temporary. The application [AuthManager].
+     */
+    @Suppress("UNUSED")
+    @Inject
+    lateinit var authManager: AuthManager
 
     /**
      * The binding for this fragment.

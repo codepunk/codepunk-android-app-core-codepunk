@@ -23,7 +23,10 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.codepunk.core.BuildConfig
 import com.codepunk.core.CodepunkApp
+import com.codepunk.core.R
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
+import com.codepunk.doofenschmirtz.net.AuthManager
+import com.codepunk.doofenschmirtz.net.AuthManager.Environment
 import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
 import com.codepunk.doofenschmirtz.util.loginator.LogcatLoginator
 import com.codepunk.doofenschmirtz.util.loginator.Loginator
@@ -76,6 +79,34 @@ object AppModule {
     @Singleton
     fun providesSharedPreferences(app: CodepunkApp): SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(app)
+
+    /**
+     * Provides a [AuthManager] for managing RESTful connections.
+     */
+    @JvmStatic
+    @Provides
+    @Singleton
+    fun providesAuthManager(app: CodepunkApp): AuthManager =
+        AuthManager.Builder()
+            .environment(
+                Environment.Builder("prod", app.getString(R.string.env_prod))
+                    .clientId(BuildConfig.CODEPUNK_PROD_CLIENT_ID)
+                    .clientSecret(BuildConfig.CODEPUNK_PROD_CLIENT_SECRET)
+                    .build()
+            )
+            .environment(
+                Environment.Builder("dev", app.getString(R.string.env_dev))
+                    .clientId(BuildConfig.CODEPUNK_DEV_CLIENT_ID)
+                    .clientSecret(BuildConfig.CODEPUNK_DEV_CLIENT_SECRET)
+                    .build()
+            )
+            .environment(
+                Environment.Builder("local", app.getString(R.string.env_local))
+                    .clientId(BuildConfig.CODEPUNK_LOCAL_CLIENT_ID)
+                    .clientSecret(BuildConfig.CODEPUNK_LOCAL_CLIENT_SECRET)
+                    .build()
+            )
+            .build()
 
     // endregion Methods
 

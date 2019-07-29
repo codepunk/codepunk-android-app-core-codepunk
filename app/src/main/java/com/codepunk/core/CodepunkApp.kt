@@ -23,16 +23,19 @@ import android.app.Service
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import androidx.preference.PreferenceManager
-import com.codepunk.core.BuildConfig.PREF_KEY_REMOTE_ENVIRONMENT
-import com.codepunk.core.BuildConfig.PREF_KEY_REMOTE_URL
+import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_AUTH_ENVIRONMENT
+import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_BASE_URL
 import com.codepunk.core.di.component.DaggerAppComponent
-import com.codepunk.doofenschmirtz.borrowed.android.preference.YesNoPreference
 import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
 import javax.inject.Inject
+
+/*
+ * TODO NEXT: UrlOverrideInterceptor
+ */
 
 /**
  * The Codepunk [Application] class.
@@ -83,18 +86,6 @@ class CodepunkApp :
     @Inject
     lateinit var loginator: FormattingLoginator
 
-    /*
-    /**
-     * The current [RemoteEnvironment] being used for remote API calls. TODO
-     */
-    @Suppress("WEAKER_ACCESS")
-    lateinit var remoteEnvironment: RemoteEnvironment
-        private set
-    */
-
-    // TODO TEMP
-    private lateinit var pref: YesNoPreference
-
     // endregion Properties
 
     // region Lifecycle methods
@@ -109,13 +100,10 @@ class CodepunkApp :
             .create(this)
             .inject(this)
 
-        /* TODO
-        remoteEnvironment = sharedPreferences.getEnvironment(PREF_KEY_REMOTE_ENVIRONMENT)
-            ?: DEFAULT_REMOTE_ENVIRONMENT
-        */
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         PreferenceManager.setDefaultValues(this, R.xml.settings_main, false)
-        onSharedPreferenceChanged(sharedPreferences, PREF_KEY_REMOTE_URL)
+        PreferenceManager.setDefaultValues(this, R.xml.settings_developer_options, false)
+        onSharedPreferenceChanged(sharedPreferences, PREF_KEY_DEV_OPTIONS_BASE_URL)
     }
 
     /**
@@ -144,25 +132,21 @@ class CodepunkApp :
     override fun serviceInjector(): AndroidInjector<Service> = serviceDispatchingAndroidInjector
 
     /**
-     * Implementation of [OnSharedPreferenceChangeListener]. Sets [remoteEnvironment] to the
-     * value referenced in [PREF_KEY_REMOTE_ENVIRONMENT].
+     * Implementation of [OnSharedPreferenceChangeListener]. Updates URL override interceptor
+     * if necessary.
      */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        sharedPreferences?.apply {
-            when (key) {
-                PREF_KEY_REMOTE_ENVIRONMENT -> {
-                    /* TODO
-                    remoteEnvironment = getEnvironment(key) ?: DEFAULT_REMOTE_ENVIRONMENT
-                    */
-                }
-                PREF_KEY_REMOTE_URL -> {
-                    /* TODO
-                    getString(key, null)?.also { newValue ->
-                        val oldValue = retrofit.baseUrl().toString()
-                        urlOverrideInterceptor.override(oldValue, newValue)
-                    } ?: urlOverrideInterceptor.clear()
-                    */
-                }
+        when (key) {
+            PREF_KEY_DEV_OPTIONS_AUTH_ENVIRONMENT -> {
+                // No op? TODO
+            }
+            PREF_KEY_DEV_OPTIONS_BASE_URL -> {
+                /* TODO
+                getString(key, null)?.also { newValue ->
+                    val oldValue = retrofit.baseUrl().toString()
+                    urlOverrideInterceptor.override(oldValue, newValue)
+                } ?: urlOverrideInterceptor.clear()
+                */
             }
         }
     }

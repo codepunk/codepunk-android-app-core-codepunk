@@ -23,7 +23,7 @@
 
     <!--suppress AndroidElementNotAllowed -->
     <com.codepunk.doofenschmirtz.preference.TwoTargetSwitchPreference
-        android:key="@string/pref_key_developer_options_enabled"
+        android:key="@string/pref_key_dev_options_enabled"
         android:icon="@drawable/ic_preference_developer_options"
         android:title="@string/settings_developer_options"
         android:summaryOff="@string/common_disabled"

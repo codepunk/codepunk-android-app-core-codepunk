@@ -42,6 +42,16 @@
 
     <!-- endregion Common -->
 
+    <!-- region Environments -->
+
+    <string name="env_dev">Development</string>
+
+    <string name="env_local">Local</string>
+
+    <string name="env_prod">Production</string>
+
+    <!-- endregion Environments -->
+
     <!-- region Settings -->
 
     <string name="settings_about">@string/common_about</string>
@@ -53,6 +63,10 @@
     <string name="settings_developer_options">Developer options</string>
 
     <string name="settings_log_out">@string/common_log_out</string>
+
+    <string name="settings_override_url">Override URL</string>
+
+    <string name="settings_remote_environment">Auth environment</string>
 
     <string name="settings_settings">@string/common_settings</string>
 
