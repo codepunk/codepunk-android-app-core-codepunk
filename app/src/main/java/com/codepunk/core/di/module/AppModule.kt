@@ -21,7 +21,7 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import com.codepunk.core.BuildConfig
+import com.codepunk.core.BuildConfig.*
 import com.codepunk.core.CodepunkApp
 import com.codepunk.core.R
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
@@ -37,6 +37,7 @@ import javax.inject.Singleton
 /**
  * A dagger [Module] for injecting application-level dependencies.
  */
+@Suppress("UNUSED")
 @Module
 object AppModule {
 
@@ -58,7 +59,7 @@ object AppModule {
     @Provides
     @Singleton
     fun providesLoginator(): FormattingLoginator = FormattingLoginator(LogcatLoginator()).apply {
-        level = BuildConfig.LOG_LEVEL
+        level = LOG_LEVEL
     }
 
     /**
@@ -89,21 +90,33 @@ object AppModule {
     fun providesAuthManager(app: CodepunkApp): AuthManager =
         AuthManager.Builder()
             .environment(
-                Environment.Builder("prod", app.getString(R.string.env_prod))
-                    .clientId(BuildConfig.CODEPUNK_PROD_CLIENT_ID)
-                    .clientSecret(BuildConfig.CODEPUNK_PROD_CLIENT_SECRET)
+                Environment.Builder(
+                    "prod",
+                    app.getString(R.string.env_prod),
+                    "https://codepunk.com"
+                )
+                    .clientId(CODEPUNK_PROD_CLIENT_ID)
+                    .clientSecret(CODEPUNK_PROD_CLIENT_SECRET)
                     .build()
             )
             .environment(
-                Environment.Builder("dev", app.getString(R.string.env_dev))
-                    .clientId(BuildConfig.CODEPUNK_DEV_CLIENT_ID)
-                    .clientSecret(BuildConfig.CODEPUNK_DEV_CLIENT_SECRET)
+                Environment.Builder(
+                    "dev",
+                    app.getString(R.string.env_dev),
+                    "https://codepunk.com"
+                )
+                    .clientId(CODEPUNK_DEV_CLIENT_ID)
+                    .clientSecret(CODEPUNK_DEV_CLIENT_SECRET)
                     .build()
             )
             .environment(
-                Environment.Builder("local", app.getString(R.string.env_local))
-                    .clientId(BuildConfig.CODEPUNK_LOCAL_CLIENT_ID)
-                    .clientSecret(BuildConfig.CODEPUNK_LOCAL_CLIENT_SECRET)
+                Environment.Builder(
+                    "local",
+                    app.getString(R.string.env_local),
+                    "http://192.168.12.10"
+                )
+                    .clientId(CODEPUNK_LOCAL_CLIENT_ID)
+                    .clientSecret(CODEPUNK_LOCAL_CLIENT_SECRET)
                     .build()
             )
             .build()

@@ -38,8 +38,9 @@ import com.codepunk.doofenschmirtz.app.AlertDialogFragment
 import com.codepunk.doofenschmirtz.util.makeKey
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.support.AndroidSupportInjection
-// TODO import retrofit2.Retrofit
+import retrofit2.Retrofit
 import javax.inject.Inject
+import javax.inject.Provider
 
 /**
  * An [AlertDialogFragment] that allows a user with developer credentials to change the base URL
@@ -59,6 +60,12 @@ class DeveloperOptionsBaseUrlDialogFragment :
     lateinit var sharedPreferences: SharedPreferences
 
     /**
+     * A [Provider] for
+     */
+    @Inject
+    lateinit var retrofitBuilderProvider: Provider<Retrofit.Builder>
+
+    /**
      * The binding for this fragment.
      */
     private lateinit var binding: DialogDeveloperOptionsRemoteUrlBinding
@@ -68,6 +75,13 @@ class DeveloperOptionsBaseUrlDialogFragment :
      */
     private val positiveBtn by lazy {
         (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+    }
+
+    /**
+     * An instance of [Retrofit.Builder] that tests the URL entered by the user.
+     */
+    private val urlTester by lazy {
+        retrofitBuilderProvider.get()
     }
 
     // endregion Properties
@@ -150,18 +164,18 @@ class DeveloperOptionsBaseUrlDialogFragment :
     override fun onClick(v: View?) {
         when (v) {
             positiveBtn -> {
-                val remoteUrl = binding.edit.text.toString()
-                if (remoteUrl.isEmpty()) {
+                val baseUrl = binding.edit.text.toString()
+                if (baseUrl.isEmpty()) {
                     resultCode = RESULT_POSITIVE
                     data = null
                     dialog?.dismiss()
                 } else {
                     // Test against Retrofit to make sure it passes baseUrl
                     try {
-                        // TODO urlTester.baseUrl(remoteUrl)
+                        urlTester.baseUrl(baseUrl)
                         resultCode = RESULT_POSITIVE
                         data = Intent().apply {
-                            putExtra(KEY_BASE_URL, remoteUrl)
+                            putExtra(KEY_BASE_URL, baseUrl)
                         }
                         dialog?.dismiss()
                     } catch (e: IllegalArgumentException) {
@@ -186,14 +200,6 @@ class DeveloperOptionsBaseUrlDialogFragment :
         @JvmStatic
         val KEY_BASE_URL =
             DeveloperOptionsBaseUrlDialogFragment::class.makeKey("BASE_URL")
-
-        /**
-         * An instance of [Retrofit] that tests the URL entered by the user.
-         */
-        @JvmStatic
-        private val urlTester by lazy {
-            // TODO Retrofit.Builder()
-        }
 
         // endregion Properties
 

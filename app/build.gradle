@@ -226,6 +226,9 @@ dependencies {
     implementation group: 'com.google.dagger', name: 'dagger', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android-support', version: versions.dagger
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: versions.retrofit
+    implementation group: 'com.squareup.retrofit2', name: 'converter-moshi', version: versions.retrofit
+
     implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: versions.kotlin
 
     implementation group: 'commons-codec', name: 'commons-codec', version: versions.commons_codec
