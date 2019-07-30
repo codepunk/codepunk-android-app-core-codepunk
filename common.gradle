@@ -41,6 +41,7 @@ ext {
                     navigation: '2.0.0',
                     preference: '1.0.0',
             ],
+            commons_codec: '1.11',
             dagger: '2.16',
             dokka: '0.9.17',
             espresso: '3.3.0-alpha02',

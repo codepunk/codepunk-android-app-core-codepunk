@@ -43,7 +43,7 @@ android {
             applicationIdSuffix ".debug"
             versionNameSuffix "-DEBUG"
 
-            ext.defaultRemoteEnvironment = "LOCAL"
+            ext.defaultAuthEnvironment = "local"
             ext.loggingLevel = 1 // Essentially everything
             ext.logLevel = "VERBOSE"
         }
@@ -51,13 +51,28 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            ext.defaultRemoteEnvironment = "PRODUCTION"
+            ext.defaultAuthEnvironment = "prod"
             ext.loggingLevel = 4 // android.util.Log.INFO
             ext.logLevel = "INFO"
         }
     }
 
     applicationVariants.all { variant ->
+        /*
+         * Generate a set of key/value pairs that are accessible both as string resources
+         * and as BuildConfig constants.
+         */
+        makeStringConstantValues(
+                variant,
+                Pair.of(
+                        "DEFAULT_AUTH_ENVIRONMENT",
+                        variant.buildType.ext.defaultAuthEnvironment
+                ),
+                Pair.of(
+                        "AUTHENTICATOR_ACCOUNT_TYPE",
+                        variant.applicationId
+                )
+        )
 
         /*
          * Define a BuildConfig int variable for the log level.
@@ -83,9 +98,9 @@ android {
                 "DEV_OPTIONS_AUTHENTICATED_HASH",
                 "DEV_OPTIONS_BASE_URL",
                 "DEV_OPTIONS_ENABLED",
+                "DEV_OPTIONS_OVERRIDE_BASE_URL",
                 "DEV_OPTIONS_UNLOCKED",
-                "LOG_OUT",
-                "OVERRIDE_URL"
+                "LOG_OUT"
         )
 
         /*
@@ -101,15 +116,39 @@ android {
         )
 
         /*
+         * Generate a set of intent categories that are accessible both as string resources
+         * and as BuildConfig constants.
+         */
+        makeIntentEntities(
+                variant,
+                IntentEntityType.CATEGORY,
+                "CHOOSE",
+                "DEVELOPER",
+                "LOG_IN",
+                "MAIN",
+                "REGISTER"
+        )
+
+        /*
+         * Generate a set of intent categories that are accessible both as string resources
+         * and as BuildConfig constants.
+         */
+        makeIntentEntities(
+                variant,
+                IntentEntityType.EXTRA,
+                "AUTH_TOKEN_TYPE",
+                "DEV_OPTIONS_PASSWORD_HASH",
+                "USERNAME"
+        )
+
+        /*
          * Generate a set of unique bundle keys that are accessible as BuildConfig constants.
          */
-        /*
         makeKeys(
                 variant,
-                "CLIENT_ID",
-                "CLIENT_SECRET"
+                "ACCOUNT",
+                "DEV_OPTIONS_CLICKS_REMAINING"
         )
-        */
 
         /*
          * Pull private values from gradle.properties
@@ -188,6 +227,8 @@ dependencies {
     implementation group: 'com.google.dagger', name: 'dagger-android', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android-support', version: versions.dagger
     implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: versions.kotlin
+
+    implementation group: 'commons-codec', name: 'commons-codec', version: versions.commons_codec
 
     implementation project(':doofenschmirtz')
 

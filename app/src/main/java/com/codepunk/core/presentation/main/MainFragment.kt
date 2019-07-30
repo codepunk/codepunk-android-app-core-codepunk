@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,11 +18,13 @@
 package com.codepunk.core.presentation.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.View.OnClickListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.codepunk.core.BuildConfig.ACTION_SETTINGS
 import com.codepunk.core.R
 import com.codepunk.core.databinding.FragmentMainBinding
 import com.codepunk.doofenschmirtz.net.AuthManager
@@ -122,11 +124,8 @@ class MainFragment:
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_settings -> {
-                TODO("You need to make settings screens")
-                /*
                 startActivity(Intent(ACTION_SETTINGS))
                 true
-                */
             }
             else -> super.onOptionsItemSelected(item)
         }

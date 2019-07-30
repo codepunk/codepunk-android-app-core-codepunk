@@ -7,7 +7,7 @@
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
-  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,15 +56,48 @@
 
     <string name="settings_about">@string/common_about</string>
 
+    <string name="settings_about_summary">Version %s</string>
+
     <string name="settings_accounts">@string/common_settings</string>
 
     <string name="settings_add_or_change_account">Add or change account</string>
+
+    <string name="settings_dev_options_base_url_dialog_title">Set base URL</string>
+
+    <string name="settings_dev_options_base_url_hint">e.g., http://newurl.com</string>
+
+    <string name="settings_dev_options_disable_dialog_message">All connections will be reset and the app will revert to the launch screen.</string>
+
+    <string name="settings_dev_options_disable_dialog_title">Disable developer options?</string>
+
+    <string name="settings_dev_options_incorrect_password">Incorrect password</string>
+
+    <string name="settings_dev_options_now_a_developer">You are now a developer!</string>
+
+    <string name="settings_dev_options_override_base_url">Override base URL</string>
+
+    <string name="settings_dev_options_override_base_url_summary_default">Use default URL</string>
+
+    <string name="settings_dev_options_redundant_show_request">No need, developer options are already unlocked</string>
+
+    <string name="settings_dev_options_password_dialog_message">Enter the password to enable developer options:</string>
+
+    <string name="settings_dev_options_password_dialog_title">Developer password</string>
+
+    <string name="settings_dev_options_password_hint">Password</string>
+
+    <plurals name="settings_dev_options_steps_from_unlocking">
+        <item quantity="one">You are now %d step away from unlocking developer options!</item>
+        <item quantity="other">You are now %d steps away from unlocking developer options!</item>
+    </plurals>
 
     <string name="settings_developer_options">Developer options</string>
 
     <string name="settings_log_out">@string/common_log_out</string>
 
-    <string name="settings_override_url">Override URL</string>
+    <string name="settings_log_out_dialog_message">You will be logged out of %1$s.</string>
+
+    <string name="settings_log_out_dialog_title">Are you sure?</string>
 
     <string name="settings_remote_environment">Auth environment</string>
 

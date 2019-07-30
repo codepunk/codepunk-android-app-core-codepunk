@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,9 @@ import dagger.android.HasServiceInjector
 import javax.inject.Inject
 
 /*
- * TODO NEXT: UrlOverrideInterceptor
+ * TODO NEXT: SettingsActivity / SettingsFragment
+ * Retrofit
+ * UrlOverrideInterceptor
  */
 
 /**
@@ -102,7 +104,7 @@ class CodepunkApp :
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         PreferenceManager.setDefaultValues(this, R.xml.settings_main, false)
-        PreferenceManager.setDefaultValues(this, R.xml.settings_developer_options, false)
+        PreferenceManager.setDefaultValues(this, R.xml.settings_dev_options, false)
         onSharedPreferenceChanged(sharedPreferences, PREF_KEY_DEV_OPTIONS_BASE_URL)
     }
 

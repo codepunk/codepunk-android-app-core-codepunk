@@ -41,12 +41,10 @@
                 android:layout_height="wrap_content"
                 android:minHeight="?actionBarSize"
                 app:titleTextColor="@color/colorTitleText"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!--suppress AndroidDomInspection -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@android:id/content"
             android:layout_width="match_parent"
@@ -55,7 +53,7 @@
             >
 
             <fragment
-                android:id="@+id/main_nav_fragment"
+                android:id="@+id/settings_nav_fragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -64,7 +62,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:navGraph="@navigation/navigation_main"
+                app:navGraph="@navigation/navigation_settings"
                 />
 
             <androidx.constraintlayout.widget.Guideline

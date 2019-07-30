@@ -17,9 +17,4 @@
   -->
 
 <resources>
-
-    <style name="Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorOverflowIcon</item>
-    </style>
-
 </resources>
