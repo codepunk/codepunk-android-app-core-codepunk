@@ -26,18 +26,14 @@ import androidx.preference.PreferenceManager
 import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_AUTH_ENVIRONMENT
 import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_BASE_URL
 import com.codepunk.core.di.component.DaggerAppComponent
+import com.codepunk.doofenschmirtz.retrofit.interceptor.UrlOverrideInterceptor
 import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
+import retrofit2.Retrofit
 import javax.inject.Inject
-
-/*
- * TODO NEXT: SettingsActivity / SettingsFragment
- * Retrofit
- * UrlOverrideInterceptor
- */
 
 /**
  * The Codepunk [Application] class.
@@ -68,19 +64,17 @@ class CodepunkApp :
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    /*
     /**
-     * The application [Retrofit] instance. TODO
+     * The application [Retrofit] instance.
      */
     @Inject
     lateinit var retrofit: Retrofit
 
     /**
-     * The host selection interceptor for overriding the retrofit base URL. TODO
+     * The host selection interceptor for overriding the retrofit base URL.
      */
     @Inject
     lateinit var urlOverrideInterceptor: UrlOverrideInterceptor
-    */
 
     /**
      * A [FormattingLoginator] for logging system events.

@@ -78,6 +78,27 @@ class NetModule {
         .build()
 
     /**
+     * Provides an instance of [BooleanIntAdapter] for dependency injection.
+     */
+    @Provides
+    @Singleton
+    fun providesBooleanIntAdapter() = BooleanIntAdapter()
+
+    /**
+     * Provides an instance of [DateJsonAdapter] for dependency injection.
+     */
+    @Provides
+    @Singleton
+    fun providesDateJsonAdapter() = DateJsonAdapter()
+
+    /**
+     * Provides an instance of [MoshiEnumConverterFactory] for dependency injection.
+     */
+    @Provides
+    @Singleton
+    fun providesMoshiEnumConverterFactory() = MoshiEnumConverterFactory()
+
+    /**
      * Provides an instance of [Moshi] for dependency injection.
      */
     @Provides
@@ -99,12 +120,26 @@ class NetModule {
         MoshiConverterFactory.create(moshi)
 
     /**
-     * Provides an instance of [Retrofit.Builder>. This is used primarily to test base URL
+     * Provides an instance of [Retrofit.Builder]. This is used primarily to test base URL
      * overrides entered by the user in Developer Options settings.
      */
     @Provides
     @Singleton
     fun providesRetrofitBuilder(): Retrofit.Builder = Retrofit.Builder()
+
+    /**
+     * Provides an instance of [AuthorizationInterceptor] for dependency injection.
+     */
+    @Provides
+    @Singleton
+    fun providesAuthorizationInterceptor() = AuthorizationInterceptor()
+
+    /**
+     * Provides an instance of [UrlOverrideInterceptor] for dependency injection.
+     */
+    @Provides
+    @Singleton
+    fun providesUrlOverrideInterceptor() = UrlOverrideInterceptor()
 
     /**
      * Provides an instance of [Retrofit] for dependency injection.

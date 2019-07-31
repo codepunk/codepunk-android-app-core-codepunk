@@ -37,10 +37,10 @@ import com.codepunk.core.databinding.DialogDeveloperOptionsRemoteUrlBinding
 import com.codepunk.doofenschmirtz.app.AlertDialogFragment
 import com.codepunk.doofenschmirtz.util.makeKey
 import com.google.android.material.textfield.TextInputLayout
+import dagger.Lazy
 import dagger.android.support.AndroidSupportInjection
 import retrofit2.Retrofit
 import javax.inject.Inject
-import javax.inject.Provider
 
 /**
  * An [AlertDialogFragment] that allows a user with developer credentials to change the base URL
@@ -60,10 +60,11 @@ class DeveloperOptionsBaseUrlDialogFragment :
     lateinit var sharedPreferences: SharedPreferences
 
     /**
-     * A [Provider] for
+     * A ([Lazy]) implementation of [Retrofit.Builder] that tests for a valid URL entered by the
+     * user.
      */
     @Inject
-    lateinit var retrofitBuilderProvider: Provider<Retrofit.Builder>
+    lateinit var urlTester: Lazy<Retrofit.Builder>
 
     /**
      * The binding for this fragment.
@@ -75,13 +76,6 @@ class DeveloperOptionsBaseUrlDialogFragment :
      */
     private val positiveBtn by lazy {
         (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
-    }
-
-    /**
-     * An instance of [Retrofit.Builder] that tests the URL entered by the user.
-     */
-    private val urlTester by lazy {
-        retrofitBuilderProvider.get()
     }
 
     // endregion Properties
@@ -129,6 +123,7 @@ class DeveloperOptionsBaseUrlDialogFragment :
             .setNegativeButton(android.R.string.cancel, this)
     }
 
+    /*
     override fun onClick(dialog: DialogInterface?, which: Int) {
         // TODO Test for valid URL
         super.onClick(dialog, which)
@@ -144,6 +139,7 @@ class DeveloperOptionsBaseUrlDialogFragment :
             }
         }
     }
+    */
 
     // endregion Inherited methods
 
@@ -172,7 +168,7 @@ class DeveloperOptionsBaseUrlDialogFragment :
                 } else {
                     // Test against Retrofit to make sure it passes baseUrl
                     try {
-                        urlTester.baseUrl(baseUrl)
+                        urlTester.get().baseUrl(baseUrl)
                         resultCode = RESULT_POSITIVE
                         data = Intent().apply {
                             putExtra(KEY_BASE_URL, baseUrl)
