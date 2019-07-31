@@ -20,18 +20,24 @@ package com.codepunk.core.di.module
 import android.accounts.AccountManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import com.codepunk.core.BuildConfig.*
 import com.codepunk.core.CodepunkApp
 import com.codepunk.core.R
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
+import com.codepunk.doofenschmirtz.di.qualifier.MainThreadExecutor
 import com.codepunk.doofenschmirtz.net.AuthManager
 import com.codepunk.doofenschmirtz.net.AuthManager.Environment
-import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
-import com.codepunk.doofenschmirtz.util.loginator.LogcatLoginator
-import com.codepunk.doofenschmirtz.util.loginator.Loginator
+import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
+import com.codepunk.doofenschmirtz.inator.loginator.LogcatLoginator
+import com.codepunk.doofenschmirtz.inator.loginator.Loginator
 import dagger.Module
 import dagger.Provides
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 /**
@@ -120,6 +126,33 @@ object AppModule {
                     .build()
             )
             .build()
+
+    /**
+     * Provides a main thread [Executor].
+     */
+    @JvmStatic
+    @Provides
+    @Singleton
+    @MainThreadExecutor
+    fun providesMainThreadExecutor() : Executor = object : Executor {
+        private val mainThreadHandler = Handler(Looper.getMainLooper())
+        override fun execute(command: Runnable) {
+            mainThreadHandler.post(command)
+        }
+    }
+
+    /**
+     * Provides an [AppExecutors] instance for global executor pools for the whole application.
+     */
+    @JvmStatic
+    @Provides
+    @Singleton
+    fun providesAppExecutors(@MainThreadExecutor mainThreadExecutor: Executor): AppExecutors =
+        AppExecutors(
+            Executors.newSingleThreadExecutor(),
+            Executors.newFixedThreadPool(3),
+            mainThreadExecutor
+        )
 
     // endregion Methods
 

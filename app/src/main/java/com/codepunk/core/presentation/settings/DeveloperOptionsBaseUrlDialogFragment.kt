@@ -35,7 +35,7 @@ import com.codepunk.core.BuildConfig
 import com.codepunk.core.R
 import com.codepunk.core.databinding.DialogDeveloperOptionsRemoteUrlBinding
 import com.codepunk.doofenschmirtz.app.AlertDialogFragment
-import com.codepunk.doofenschmirtz.util.makeKey
+import com.codepunk.doofenschmirtz.inator.makeKey
 import com.google.android.material.textfield.TextInputLayout
 import dagger.Lazy
 import dagger.android.support.AndroidSupportInjection
@@ -122,24 +122,6 @@ class DeveloperOptionsBaseUrlDialogFragment :
             .setPositiveButton(android.R.string.ok, this)
             .setNegativeButton(android.R.string.cancel, this)
     }
-
-    /*
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        // TODO Test for valid URL
-        super.onClick(dialog, which)
-        when (which) {
-            Dialog.BUTTON_POSITIVE -> {
-                data = if (binding.edit.text.isNullOrBlank()) {
-                    null
-                } else {
-                    Intent().apply {
-                        putExtra(KEY_BASE_URL, binding.edit.text.toString())
-                    }
-                }
-            }
-        }
-    }
-    */
 
     // endregion Inherited methods
 

@@ -30,20 +30,10 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.codepunk.core.BuildConfig.*
 import com.codepunk.core.R
-/* TODO
-import com.codepunk.core.domain.model.User
-import com.codepunk.core.domain.session.Session
-import com.codepunk.core.domain.session.SessionManager
-*/
 import com.codepunk.doofenschmirtz.app.AlertDialogFragment
 import com.codepunk.doofenschmirtz.app.AlertDialogFragment.Companion.RESULT_POSITIVE
 import com.codepunk.doofenschmirtz.preference.TwoTargetSwitchPreference
-import com.codepunk.doofenschmirtz.util.startLaunchActivity
-/* TODO
-import com.codepunk.doofenschmirtz.util.resourceinator.Resource
-import com.codepunk.doofenschmirtz.util.resourceinator.SuccessResource
-import com.codepunk.doofenschmirtz.util.startLaunchActivity
-*/
+import com.codepunk.doofenschmirtz.inator.startLaunchActivity
 
 // region Constants
 
@@ -422,8 +412,6 @@ class MainSettingsFragment :
             ).show()
         }
     }
-
-    // TODO Consolidate these yes/no dialogs
 
     /**
      * Shows the developer password dialog.

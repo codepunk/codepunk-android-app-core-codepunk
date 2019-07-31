@@ -27,8 +27,7 @@ import androidx.fragment.app.Fragment
 import com.codepunk.core.BuildConfig.ACTION_SETTINGS
 import com.codepunk.core.R
 import com.codepunk.core.databinding.FragmentMainBinding
-import com.codepunk.doofenschmirtz.net.AuthManager
-import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
+import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -49,13 +48,6 @@ class MainFragment:
     @Suppress("UNUSED")
     @Inject
     lateinit var loginator: FormattingLoginator
-
-    /**
-     * TODO Temporary. The application [AuthManager].
-     */
-    @Suppress("UNUSED")
-    @Inject
-    lateinit var authManager: AuthManager
 
     /**
      * The binding for this fragment.

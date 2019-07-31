@@ -26,8 +26,8 @@ import androidx.preference.PreferenceManager
 import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_AUTH_ENVIRONMENT
 import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_BASE_URL
 import com.codepunk.core.di.component.DaggerAppComponent
+import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import com.codepunk.doofenschmirtz.retrofit.interceptor.UrlOverrideInterceptor
-import com.codepunk.doofenschmirtz.util.loginator.FormattingLoginator
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -131,18 +131,16 @@ class CodepunkApp :
      * Implementation of [OnSharedPreferenceChangeListener]. Updates URL override interceptor
      * if necessary.
      */
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             PREF_KEY_DEV_OPTIONS_AUTH_ENVIRONMENT -> {
                 // No op? TODO
             }
             PREF_KEY_DEV_OPTIONS_BASE_URL -> {
-                /* TODO
-                getString(key, null)?.also { newValue ->
+                sharedPreferences.getString(key, null)?.also { newValue ->
                     val oldValue = retrofit.baseUrl().toString()
                     urlOverrideInterceptor.override(oldValue, newValue)
                 } ?: urlOverrideInterceptor.clear()
-                */
             }
         }
     }

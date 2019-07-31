@@ -87,7 +87,6 @@ class SettingsActivity : AppCompatActivity(),
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // TODO Must be a cleaner way to do this?
         if (intent.categories?.contains(CATEGORY_DEVELOPER) == true) {
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.fragment_main_settings, true)
