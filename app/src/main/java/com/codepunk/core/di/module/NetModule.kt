@@ -19,13 +19,19 @@ package com.codepunk.core.di.module
 
 import android.content.Context
 import com.codepunk.core.BuildConfig.DEFAULT_AUTH_ENVIRONMENT
+import com.codepunk.core.data.remote.webservice.AuthWebservice
+import com.codepunk.core.data.remote.webservice.AuthWebserviceWrapper
+import com.codepunk.core.data.repository.AuthRepositoryImpl
+import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
-import com.codepunk.doofenschmirtz.moshi.adapter.BooleanIntAdapter
-import com.codepunk.doofenschmirtz.moshi.adapter.DateJsonAdapter
-import com.codepunk.doofenschmirtz.moshi.converter.MoshiEnumConverterFactory
-import com.codepunk.doofenschmirtz.net.AuthManager
-import com.codepunk.doofenschmirtz.retrofit.interceptor.AuthorizationInterceptor
-import com.codepunk.doofenschmirtz.retrofit.interceptor.UrlOverrideInterceptor
+import com.codepunk.doofenschmirtz.data.remote.moshi.adapter.BooleanIntAdapter
+import com.codepunk.doofenschmirtz.data.remote.moshi.adapter.DateJsonAdapter
+import com.codepunk.doofenschmirtz.data.remote.moshi.converter.MoshiEnumConverterFactory
+import com.codepunk.doofenschmirtz.auth.AuthManager
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.util.LiveDataCallAdapterFactory
+import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.AuthorizationInterceptor
+import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.UrlOverrideInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -55,7 +61,7 @@ class NetModule {
     // region Methods
 
     /**
-     * Provides an instance of [Cache] for dependency injection.
+     * Provides an instance of [Cache].
      */
     @Provides
     @Singleton
@@ -63,7 +69,7 @@ class NetModule {
         Cache(context.cacheDir, CACHE_SIZE)
 
     /**
-     * Provides an instance of [OkHttpClient] for dependency injection.
+     * Provides an instance of [OkHttpClient].
      */
     @Provides
     @Singleton
@@ -78,28 +84,31 @@ class NetModule {
         .build()
 
     /**
-     * Provides an instance of [BooleanIntAdapter] for dependency injection.
+     * Provides an instance of [BooleanIntAdapter].
      */
     @Provides
     @Singleton
-    fun providesBooleanIntAdapter() = BooleanIntAdapter()
+    fun providesBooleanIntAdapter() =
+        BooleanIntAdapter()
 
     /**
-     * Provides an instance of [DateJsonAdapter] for dependency injection.
+     * Provides an instance of [DateJsonAdapter].
      */
     @Provides
     @Singleton
-    fun providesDateJsonAdapter() = DateJsonAdapter()
+    fun providesDateJsonAdapter() =
+        DateJsonAdapter()
 
     /**
-     * Provides an instance of [MoshiEnumConverterFactory] for dependency injection.
+     * Provides an instance of [MoshiEnumConverterFactory].
      */
     @Provides
     @Singleton
-    fun providesMoshiEnumConverterFactory() = MoshiEnumConverterFactory()
+    fun providesMoshiEnumConverterFactory() =
+        MoshiEnumConverterFactory()
 
     /**
-     * Provides an instance of [Moshi] for dependency injection.
+     * Provides an instance of [Moshi].
      */
     @Provides
     @Singleton
@@ -112,7 +121,15 @@ class NetModule {
         .build()
 
     /**
-     * Provides an instance of [MoshiConverterFactory] for dependency injection.
+     * Provides an instance of [LiveDataCallAdapterFactory].
+     */
+    @Provides
+    @Singleton
+    fun providesLiveDataCallAdapterFactory(): LiveDataCallAdapterFactory =
+        LiveDataCallAdapterFactory()
+
+    /**
+     * Provides an instance of [MoshiConverterFactory].
      */
     @Provides
     @Singleton
@@ -128,26 +145,29 @@ class NetModule {
     fun providesRetrofitBuilder(): Retrofit.Builder = Retrofit.Builder()
 
     /**
-     * Provides an instance of [AuthorizationInterceptor] for dependency injection.
+     * Provides an instance of [AuthorizationInterceptor].
      */
     @Provides
     @Singleton
-    fun providesAuthorizationInterceptor() = AuthorizationInterceptor()
+    fun providesAuthorizationInterceptor() =
+        AuthorizationInterceptor()
 
     /**
-     * Provides an instance of [UrlOverrideInterceptor] for dependency injection.
+     * Provides an instance of [UrlOverrideInterceptor].
      */
     @Provides
     @Singleton
-    fun providesUrlOverrideInterceptor() = UrlOverrideInterceptor()
+    fun providesUrlOverrideInterceptor() =
+        UrlOverrideInterceptor()
 
     /**
-     * Provides an instance of [Retrofit] for dependency injection.
+     * Provides an instance of [Retrofit].
      */
     @Provides
     @Singleton
     fun providesRetrofit(
         okHttpClient: OkHttpClient,
+        liveDataCallAdapterFactory: LiveDataCallAdapterFactory,
         moshiConverterFactory: MoshiConverterFactory,
         moshiEnumConverterFactory: MoshiEnumConverterFactory,
         authManager: AuthManager
@@ -156,12 +176,12 @@ class NetModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(baseUrl)
+            .addCallAdapterFactory(liveDataCallAdapterFactory)
             .addConverterFactory(moshiConverterFactory)
             .addConverterFactory(moshiEnumConverterFactory)
             .build()
     }
 
-    /* TODO
     /**
      * Provides an instance of [AuthWebservice] for making authentication API calls.
      */
@@ -171,6 +191,7 @@ class NetModule {
         retrofit: Retrofit
     ): AuthWebservice = AuthWebserviceWrapper(retrofit.create(AuthWebservice::class.java))
 
+    /* TODO
     /**
      * Provides an instance of [UserWebservice] for making user API calls.
      */
@@ -180,6 +201,21 @@ class NetModule {
         retrofit: Retrofit
     ): UserWebservice = retrofit.create(UserWebservice::class.java)
     */
+
+    /**
+     * Provides an instance of [AuthRepository].
+     */
+    @Provides
+    @Singleton
+    fun providesAuthRepository(
+        appExecutors: AppExecutors,
+        authWebservice: AuthWebservice,
+        retrofit: Retrofit
+    ): AuthRepository = AuthRepositoryImpl(
+        appExecutors,
+        authWebservice,
+        retrofit
+    )
 
     // endregion Methods
 

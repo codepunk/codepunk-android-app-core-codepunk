@@ -26,11 +26,11 @@ import android.preference.PreferenceManager
 import com.codepunk.core.BuildConfig.*
 import com.codepunk.core.CodepunkApp
 import com.codepunk.core.R
+import com.codepunk.doofenschmirtz.auth.AuthManager
+import com.codepunk.doofenschmirtz.auth.AuthManager.Environment
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
 import com.codepunk.doofenschmirtz.di.qualifier.MainThreadExecutor
-import com.codepunk.doofenschmirtz.net.AuthManager
-import com.codepunk.doofenschmirtz.net.AuthManager.Environment
 import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import com.codepunk.doofenschmirtz.inator.loginator.LogcatLoginator
 import com.codepunk.doofenschmirtz.inator.loginator.Loginator

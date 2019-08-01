@@ -27,13 +27,23 @@ import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_AUTH_ENVIRONMENT
 import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_BASE_URL
 import com.codepunk.core.di.component.DaggerAppComponent
 import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
-import com.codepunk.doofenschmirtz.retrofit.interceptor.UrlOverrideInterceptor
+import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.UrlOverrideInterceptor
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
 import retrofit2.Retrofit
 import javax.inject.Inject
+
+/**
+ * TODO NEXT
+ * * AuthRepositoryImpl - In progress
+ * * UserWebservice (eventually UserRepository / UserRepositoryImpl)
+ * * Fix TODO in AuthRepositoryImpl to get username if necessary
+ * * AccountAuthenticator (use AuthRepository and not AuthWebservice)
+ * * AuthenticatorService
+ * * Session ????
+ */
 
 /**
  * The Codepunk [Application] class.

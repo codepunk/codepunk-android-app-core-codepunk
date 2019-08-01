@@ -19,8 +19,8 @@ package com.codepunk.core.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Resource
-import com.codepunk.doofenschmirtz.domain.model.Authentication
-import com.codepunk.doofenschmirtz.domain.model.Message
+import com.codepunk.core.domain.model.Authentication
+import com.codepunk.core.domain.model.Message
 
 /**
  * A data repository that defines auth-related methods.

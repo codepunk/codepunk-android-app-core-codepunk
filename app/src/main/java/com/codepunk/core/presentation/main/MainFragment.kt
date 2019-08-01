@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment
 import com.codepunk.core.BuildConfig.ACTION_SETTINGS
 import com.codepunk.core.R
 import com.codepunk.core.databinding.FragmentMainBinding
+import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -48,6 +49,12 @@ class MainFragment:
     @Suppress("UNUSED")
     @Inject
     lateinit var loginator: FormattingLoginator
+
+    /**
+     * TODO TEMP
+     */
+    @Inject
+    lateinit var authRepository: AuthRepository
 
     /**
      * The binding for this fragment.
@@ -154,6 +161,12 @@ class MainFragment:
     override fun onClick(v: View?) {
         when (v) {
             binding.logInOutBtn -> {
+                /* TODO TEMP This allows the button to be clicked a ton of times and old requests are not canceled. Maybe in a ViewModel that will be solved? */
+                val liveData = authRepository.authenticate("scottpunk", "r3stlandC")
+                liveData.observeForever {
+                    loginator.d("liveData=$it")
+                }
+
                 /*
                 when (sessionManager.session) {
                     null -> sessionManager.getSession(silentMode = false, refresh = true)

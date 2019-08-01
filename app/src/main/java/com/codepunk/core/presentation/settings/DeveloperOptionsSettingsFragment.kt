@@ -29,7 +29,7 @@ import com.codepunk.core.BuildConfig.*
 import com.codepunk.core.R
 import com.codepunk.doofenschmirtz.app.AlertDialogFragment
 import com.codepunk.doofenschmirtz.app.AlertDialogFragment.Companion.RESULT_POSITIVE
-import com.codepunk.doofenschmirtz.net.AuthManager
+import com.codepunk.doofenschmirtz.auth.AuthManager
 import com.codepunk.doofenschmirtz.preference.TwoTargetSwitchPreference
 import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import com.codepunk.doofenschmirtz.inator.makeKey
