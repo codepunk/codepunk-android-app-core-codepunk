@@ -38,11 +38,10 @@ import javax.inject.Inject
 /**
  * TODO NEXT
  * * AuthRepositoryImpl - In progress
- * * UserWebservice (eventually UserRepository / UserRepositoryImpl)
- * * Fix TODO in AuthRepositoryImpl to get username if necessary
  * * AccountAuthenticator (use AuthRepository and not AuthWebservice)
  * * AuthenticatorService
  * * Session ????
+ * * Question: Should Room be maintaining its own autoincrement ids? I'm guessing no?
  */
 
 /**
