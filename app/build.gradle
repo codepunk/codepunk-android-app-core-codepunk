@@ -29,13 +29,19 @@ android {
     buildToolsVersion config.buildTools
 
     defaultConfig {
-        applicationId "com.codepunk.shell"
+        applicationId "com.codepunk.core"
         minSdkVersion config.minSdk
         targetSdkVersion config.targetSdk
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -92,8 +98,8 @@ android {
                 variant,
                 "ABOUT",
                 "ADD_OR_CHANGE_ACCOUNT",
+                "AUTHENTICATED_USERNAME",
                 "CATEGORY_ACCOUNTS",
-                "CURRENT_ACCOUNT_NAME",
                 "DEV_OPTIONS_AUTH_ENVIRONMENT",
                 "DEV_OPTIONS_AUTHENTICATED_HASH",
                 "DEV_OPTIONS_BASE_URL",
@@ -217,12 +223,14 @@ android {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation group: 'android.arch.persistence.room', name: 'runtime', version: versions.room
     implementation group: 'androidx.appcompat', name: 'appcompat', version: versions.androidx.appcompat
     implementation group: 'androidx.core', name: 'core-ktx', version: versions.androidx.core
     implementation group: 'androidx.constraintlayout', name: 'constraintlayout', version: versions.androidx.constraintlayout
     implementation group: 'androidx.navigation', name: 'navigation-fragment-ktx', version: versions.androidx.navigation
     implementation group: 'androidx.navigation', name: 'navigation-ui-ktx', version: versions.androidx.navigation
     implementation group: 'androidx.preference', name: 'preference', version: versions.androidx.preference
+
     implementation group: 'com.google.dagger', name: 'dagger', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android', version: versions.dagger
     implementation group: 'com.google.dagger', name: 'dagger-android-support', version: versions.dagger
@@ -235,10 +243,12 @@ dependencies {
 
     implementation project(':doofenschmirtz')
 
+    kapt group: 'android.arch.persistence.room', name: 'compiler', version: versions.room
     kapt group: 'com.google.dagger', name: 'dagger-android-processor', version: versions.dagger
     kapt group: 'com.google.dagger', name: 'dagger-compiler', version: versions.dagger
 
     testImplementation group: 'junit', name: 'junit', version: versions.junit
+    androidTestImplementation group: 'android.arch.persistence.room', name: 'testing', version: versions.room
     androidTestImplementation group: 'androidx.test', name: 'runner', version: versions.testrunner
     androidTestImplementation group: 'androidx.test.espresso', name: 'espresso-core', version: versions.espresso
 }

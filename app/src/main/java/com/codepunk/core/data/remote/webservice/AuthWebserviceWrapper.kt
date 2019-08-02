@@ -19,11 +19,10 @@ package com.codepunk.core.data.remote.webservice
 
 import androidx.lifecycle.LiveData
 import com.codepunk.core.BuildConfig
-import com.codepunk.core.data.remote.entity.RemoteAuthentication
+import com.codepunk.core.data.remote.entity.RemoteOAuthToken
 import com.codepunk.core.data.remote.entity.RemoteMessage
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
 import com.codepunk.doofenschmirtz.domain.model.GrantType
-import retrofit2.Call
 
 /**
  * TODO: Replace all CODEPUNK_LOCAL_CLIENT_ID/CODEPUNK_LOCAL_CLIENT_SECRET with current somehow
@@ -54,7 +53,7 @@ class AuthWebserviceWrapper(private val base: AuthWebservice) :
         username: String,
         password: String,
         scope: String
-    ): LiveData<ApiResponse<RemoteAuthentication>> = base.authenticate(
+    ): LiveData<ApiResponse<RemoteOAuthToken>> = base.authenticate(
         grantType,
         clientId,
         clientSecret,
@@ -67,7 +66,7 @@ class AuthWebserviceWrapper(private val base: AuthWebservice) :
         username: String,
         password: String,
         scope: String
-    ): LiveData<ApiResponse<RemoteAuthentication>> {
+    ): LiveData<ApiResponse<RemoteOAuthToken>> {
         return base.authenticate(
             GrantType.PASSWORD,
             BuildConfig.CODEPUNK_LOCAL_CLIENT_ID,
@@ -81,7 +80,7 @@ class AuthWebserviceWrapper(private val base: AuthWebservice) :
     override fun authenticate(
         username: String,
         password: String
-    ): LiveData<ApiResponse<RemoteAuthentication>> {
+    ): LiveData<ApiResponse<RemoteOAuthToken>> {
         return base.authenticate(
             GrantType.PASSWORD,
             BuildConfig.CODEPUNK_LOCAL_CLIENT_ID,
@@ -97,10 +96,10 @@ class AuthWebserviceWrapper(private val base: AuthWebservice) :
         clientId: String,
         clientSecret: String,
         refreshToken: String
-    ): LiveData<ApiResponse<RemoteAuthentication>> =
+    ): LiveData<ApiResponse<RemoteOAuthToken>> =
         base.refreshToken(grantType, clientId, clientSecret, refreshToken)
 
-    override fun refreshToken(refreshToken: String): LiveData<ApiResponse<RemoteAuthentication>> =
+    override fun refreshToken(refreshToken: String): LiveData<ApiResponse<RemoteOAuthToken>> =
         base.refreshToken(
             GrantType.REFRESH_TOKEN,
             BuildConfig.CODEPUNK_LOCAL_CLIENT_ID,

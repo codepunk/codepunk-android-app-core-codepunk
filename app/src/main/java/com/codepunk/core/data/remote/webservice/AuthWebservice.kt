@@ -18,7 +18,7 @@
 package com.codepunk.core.data.remote.webservice
 
 import androidx.lifecycle.LiveData
-import com.codepunk.core.data.remote.entity.RemoteAuthentication
+import com.codepunk.core.data.remote.entity.RemoteOAuthToken
 import com.codepunk.core.data.remote.entity.RemoteMessage
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
 import com.codepunk.doofenschmirtz.data.remote.HEADER_ACCEPT_APPLICATION_JSON
@@ -29,7 +29,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 /**
- * Webservice that defines authentication-related calls.
+ * Webservice that defines token-related calls.
  */
 @Suppress("UNUSED")
 interface AuthWebservice {
@@ -37,7 +37,7 @@ interface AuthWebservice {
     // region Methods
 
     /**
-     * Gets an authentication token.
+     * Gets an token token.
      */
     @POST("oauth/token")
     @FormUrlEncoded
@@ -60,27 +60,27 @@ interface AuthWebservice {
 
         @Field("scope")
         scope: String
-    ): LiveData<ApiResponse<RemoteAuthentication>>
+    ): LiveData<ApiResponse<RemoteOAuthToken>>
 
     /**
-     * Gets an authentication token using default values.
+     * Gets an token token using default values.
      */
     fun authenticate(
         username: String,
         password: String,
         scope: String
-    ): LiveData<ApiResponse<RemoteAuthentication>>
+    ): LiveData<ApiResponse<RemoteOAuthToken>>
 
     /**
-     * Gets an authentication token using default values.
+     * Gets an token token using default values.
      */
     fun authenticate(
         username: String,
         password: String
-    ): LiveData<ApiResponse<RemoteAuthentication>>
+    ): LiveData<ApiResponse<RemoteOAuthToken>>
 
     /**
-     * Gets an authentication token from an existing [refreshToken].
+     * Gets an token token from an existing [refreshToken].
      */
     @POST("oauth/token")
     @FormUrlEncoded
@@ -97,12 +97,12 @@ interface AuthWebservice {
 
         @Field("refresh_token")
         refreshToken: String
-    ): LiveData<ApiResponse<RemoteAuthentication>>
+    ): LiveData<ApiResponse<RemoteOAuthToken>>
 
     /**
-     * Gets an authentication token from an existing [refreshToken].
+     * Gets an token token from an existing [refreshToken].
      */
-    fun refreshToken(refreshToken: String): LiveData<ApiResponse<RemoteAuthentication>>
+    fun refreshToken(refreshToken: String): LiveData<ApiResponse<RemoteOAuthToken>>
 
     /**
      * Registers a new account.

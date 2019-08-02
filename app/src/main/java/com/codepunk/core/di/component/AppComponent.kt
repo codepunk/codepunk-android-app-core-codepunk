@@ -20,6 +20,7 @@ package com.codepunk.core.di.component
 import com.codepunk.core.CodepunkApp
 import com.codepunk.core.di.module.ActivityBuildersModule
 import com.codepunk.core.di.module.AppModule
+import com.codepunk.core.di.module.LocalModule
 import com.codepunk.core.di.module.NetModule
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -35,7 +36,8 @@ import javax.inject.Singleton
         ActivityBuildersModule::class,
         AndroidSupportInjectionModule::class,
         AppModule::class,
-        NetModule::class
+        NetModule::class,
+        LocalModule::class
     ]
 )
 interface AppComponent : AndroidInjector<CodepunkApp> {

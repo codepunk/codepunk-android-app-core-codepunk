@@ -21,14 +21,9 @@ import com.codepunk.doofenschmirtz.domain.model.TokenType
 import com.codepunk.doofenschmirtz.inator.ellipsize
 
 /**
- * A data class representing an authentication allowing a user to log in to the application.
+ * A data class representing an token allowing a user to log in to the application.
  */
-data class Authentication(
-
-    /**
-     * The username of the user being authenticated.
-     */
-    val username: String,
+data class OAuthToken(
 
     /**
      * The type of auth token, which provides the client with the information required to
@@ -60,8 +55,7 @@ data class Authentication(
      * A version of [toString] that ellipsizes [authToken] and [refreshToken].
      */
     override fun toString(): String =
-        "Authentication(" +
-            "username=$username, " +
+        "OAuthToken(" +
             "tokenType=$tokenType, " +
             "authToken='${authToken.ellipsize()}', " +
             "refreshToken='${refreshToken.ellipsize()}', " +

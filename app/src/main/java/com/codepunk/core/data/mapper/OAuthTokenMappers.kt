@@ -17,15 +17,14 @@
 
 package com.codepunk.core.data.mapper
 
-import com.codepunk.core.data.remote.entity.RemoteAuthentication
-import com.codepunk.core.domain.model.Authentication
+import com.codepunk.core.data.remote.entity.RemoteOAuthToken
+import com.codepunk.core.domain.model.OAuthToken
 
 /**
- * Converts a [RemoteAuthentication] to a domain [Authentication].
+ * Converts a [RemoteOAuthToken] to a domain [OAuthToken].
  */
-fun RemoteAuthentication.toDomain(username: String): Authentication =
-    Authentication(
-        username,
+fun RemoteOAuthToken.toDomain(): OAuthToken =
+    OAuthToken(
         tokenType,
         authToken,
         refreshToken,
@@ -33,7 +32,7 @@ fun RemoteAuthentication.toDomain(username: String): Authentication =
     )
 
 /**
- * Converts a nullable [RemoteAuthentication] to a nullable domain [Authentication].
+ * Converts a nullable [RemoteOAuthToken] to a nullable domain [OAuthToken].
  */
-fun RemoteAuthentication?.toDomainOrNull(username: String): Authentication? =
-    this?.toDomain(username)
+fun RemoteOAuthToken?.toDomainOrNull(): OAuthToken? =
+    this?.toDomain()

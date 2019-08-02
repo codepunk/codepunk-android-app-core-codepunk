@@ -160,9 +160,9 @@ class MainSettingsFragment :
      */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
+            PREF_KEY_AUTHENTICATED_USERNAME -> updatePreferenceScreen()
             PREF_KEY_DEV_OPTIONS_UNLOCKED -> updatePreferenceScreen()
             PREF_KEY_DEV_OPTIONS_AUTHENTICATED_HASH -> updatePreferenceScreen()
-            PREF_KEY_CURRENT_ACCOUNT_NAME -> updatePreferenceScreen()
         }
     }
 
@@ -209,7 +209,7 @@ class MainSettingsFragment :
     }
 
     /**
-     * Listens for the authentication results.
+     * Listens for the token results.
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {

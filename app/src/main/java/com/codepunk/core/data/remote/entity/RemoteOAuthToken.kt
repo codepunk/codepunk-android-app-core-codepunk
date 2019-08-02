@@ -22,9 +22,9 @@ import com.codepunk.doofenschmirtz.inator.ellipsize
 import com.squareup.moshi.Json
 
 /**
- * A data class representing an OAuth2 authentication.
+ * A data class representing an OAuth2 token token.
  */
-data class RemoteAuthentication(
+data class RemoteOAuthToken(
 
     /**
      * The type of auth token, which provides the client with the information required to
@@ -60,7 +60,7 @@ data class RemoteAuthentication(
      * A version of [toString] that ellipsizes [authToken] and [refreshToken].
      */
     override fun toString(): String =
-        "RemoteAuthentication(" +
+        "RemoteOAuthToken(" +
             "tokenType=$tokenType, " +
             "authToken='${authToken.ellipsize()}', " +
             "refreshToken='${refreshToken.ellipsize()}', " +

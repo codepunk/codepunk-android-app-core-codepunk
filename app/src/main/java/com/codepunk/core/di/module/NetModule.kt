@@ -18,9 +18,12 @@
 package com.codepunk.core.di.module
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.codepunk.core.BuildConfig.DEFAULT_AUTH_ENVIRONMENT
+import com.codepunk.core.data.local.dao.UserDao
 import com.codepunk.core.data.remote.webservice.AuthWebservice
 import com.codepunk.core.data.remote.webservice.AuthWebserviceWrapper
+import com.codepunk.core.data.remote.webservice.UserWebservice
 import com.codepunk.core.data.repository.AuthRepositoryImpl
 import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
@@ -32,6 +35,7 @@ import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.util.LiveDataCallAdapterFactory
 import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.AuthorizationInterceptor
 import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.UrlOverrideInterceptor
+import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -54,7 +58,6 @@ private const val CACHE_SIZE: Long = 10 * 1024 * 1024
 /**
  * A [Module] that provides network-specific instances for dependency injection.
  */
-@Suppress("UNUSED")
 @Module
 class NetModule {
 
@@ -183,7 +186,7 @@ class NetModule {
     }
 
     /**
-     * Provides an instance of [AuthWebservice] for making authentication API calls.
+     * Provides an instance of [AuthWebservice] for making token API calls.
      */
     @Provides
     @Singleton
@@ -191,7 +194,6 @@ class NetModule {
         retrofit: Retrofit
     ): AuthWebservice = AuthWebserviceWrapper(retrofit.create(AuthWebservice::class.java))
 
-    /* TODO
     /**
      * Provides an instance of [UserWebservice] for making user API calls.
      */
@@ -200,7 +202,6 @@ class NetModule {
     fun providesUserWebservice(
         retrofit: Retrofit
     ): UserWebservice = retrofit.create(UserWebservice::class.java)
-    */
 
     /**
      * Provides an instance of [AuthRepository].
@@ -208,13 +209,21 @@ class NetModule {
     @Provides
     @Singleton
     fun providesAuthRepository(
+        sharedPreferences: SharedPreferences,
         appExecutors: AppExecutors,
+        retrofit: Retrofit,
         authWebservice: AuthWebservice,
-        retrofit: Retrofit
+        userWebservice: UserWebservice,
+        userDao: UserDao,
+        loginator: FormattingLoginator
     ): AuthRepository = AuthRepositoryImpl(
+        sharedPreferences,
         appExecutors,
+        retrofit,
         authWebservice,
-        retrofit
+        userWebservice,
+        userDao,
+        loginator
     )
 
     // endregion Methods
