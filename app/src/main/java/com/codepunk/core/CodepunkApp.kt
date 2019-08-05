@@ -37,6 +37,13 @@ import javax.inject.Inject
 
 /**
  * TODO NEXT
+ * * Enhance LiveDataCallAdapter (?) ApiErrorResponse, Resource, and NetworkBoundResource by allowing error/Throwable
+ *       to be passed along to Observables (via Resource).
+ *       1. LiveDataCallAdapter calls ApiResponse.create(throwable)
+ *       2. ApiResponse.create(throwable) creates an ApiErrorResponse but loses the throwable
+ *       3. NetworkBoundResource calls Resource.error(response.errorMessage, newData)
+ *       4. Resource.error just makes a Resource with status "error". Should maybe be a sealed
+ *          class with the error version having the throwable
  * * AuthRepositoryImpl - In progress
  * * AccountAuthenticator (use AuthRepository and not AuthWebservice)
  * * AuthenticatorService

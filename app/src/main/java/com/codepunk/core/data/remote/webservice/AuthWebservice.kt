@@ -20,7 +20,7 @@ package com.codepunk.core.data.remote.webservice
 import androidx.lifecycle.LiveData
 import com.codepunk.core.data.remote.entity.RemoteOAuthToken
 import com.codepunk.core.data.remote.entity.RemoteMessage
-import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
+import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiResponse
 import com.codepunk.doofenschmirtz.data.remote.HEADER_ACCEPT_APPLICATION_JSON
 import com.codepunk.doofenschmirtz.domain.model.GrantType
 import retrofit2.http.Field

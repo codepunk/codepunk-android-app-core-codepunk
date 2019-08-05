@@ -32,12 +32,12 @@ import com.codepunk.core.domain.model.Message
 import com.codepunk.core.domain.model.OAuthToken
 import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
-import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiErrorResponse
-import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
-import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiSuccessResponse
-import com.codepunk.doofenschmirtz.borrowed.android.example.github.repository.NetworkBoundResource
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.util.AbsentLiveData
-import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Resource
+import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiErrorResponse
+import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiResponse
+import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiSuccessResponse
+import com.codepunk.doofenschmirtz.borrowed.modified.example.github.repository.NetworkBoundResource
+import com.codepunk.doofenschmirtz.borrowed.modified.example.github.vo.Resource
 import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -186,15 +186,13 @@ class AuthRepositoryImpl(
                                     data.value = apiResponse
                                 }
                                 is ApiErrorResponse -> {
-                                    val apiResponse = ApiErrorResponse<Pair<RemoteOAuthToken, RemoteUser>>(userResponse.errorMessage)
-                                    data.value = apiResponse
+                                    data.value = ApiErrorResponse(userResponse)
                                 }
                             }
                         }
                     }
                     is ApiErrorResponse -> {
-                        val apiResponse = ApiErrorResponse<Pair<RemoteOAuthToken, RemoteUser>>(authResponse.errorMessage)
-                        data.value = apiResponse
+                        data.value = ApiErrorResponse(authResponse)
                     }
                 }
             }

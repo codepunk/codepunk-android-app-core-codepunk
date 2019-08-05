@@ -24,14 +24,11 @@ import android.view.*
 import android.view.View.OnClickListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.codepunk.core.BuildConfig.ACTION_SETTINGS
 import com.codepunk.core.R
 import com.codepunk.core.databinding.FragmentMainBinding
 import com.codepunk.core.domain.repository.AuthRepository
-import com.codepunk.core.domain.session.Session
 import com.codepunk.core.domain.session.SessionManager
-import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Resource
 import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -97,11 +94,13 @@ class MainFragment :
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
+        /*
         sessionManager.sessionResourceLiveData.observe(
             this,
             Observer { resource ->
                 onSessionResource(resource)
             })
+        */
     }
 
     /**
@@ -197,9 +196,11 @@ class MainFragment :
 
     // region Methods
 
+    /*
     private fun onSessionResource(resource: Resource<Session>) {
         loginator.d("resource=$resource")
     }
+    */
 
     // endregion Methods
 

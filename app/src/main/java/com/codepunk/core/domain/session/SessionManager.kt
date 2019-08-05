@@ -48,7 +48,7 @@ class SessionManager @Inject constructor(
      */
     val sessionResourceLiveData: MediatorLiveData<Resource<Session>> =
         MediatorLiveData<Resource<Session>>().apply {
-            value = Resource.success(UNAUTHENTICATED_SESSION)
+            //value = Resource.success(UNAUTHENTICATED_SESSION)
         }
 
     /**
