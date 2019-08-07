@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?actionBarSize"
-                app:titleTextColor="@color/colorTitleText"
+                app:titleTextColor="?android:textColorPrimaryInverse"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 />
 

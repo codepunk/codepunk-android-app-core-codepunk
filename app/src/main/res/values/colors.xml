@@ -33,7 +33,9 @@
 
     <!-- region Text colors -->
 
-    <color name="colorTitleText">@android:color/white</color>
+    <!-- These are included here so vector images can reference it in < API 21 -->
+    <color name="textColorPrimary">?android:textColorPrimary</color>
+    <color name="textColorPrimaryInverse">?android:textColorPrimaryInverse</color>
 
     <!-- endregion Text colors -->
 

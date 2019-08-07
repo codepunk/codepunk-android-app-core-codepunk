@@ -17,6 +17,7 @@
 
 package com.codepunk.core.di.module
 
+import com.codepunk.core.presentation.auth.AuthActivity
 import com.codepunk.core.presentation.main.MainActivity
 import com.codepunk.core.presentation.settings.SettingsActivity
 import com.codepunk.doofenschmirtz.di.scope.ActivityScope
@@ -31,6 +32,13 @@ import dagger.android.ContributesAndroidInjector
 interface ActivityBuildersModule {
 
     // region Methods
+
+    /**
+     * Contributes an Android injector to [AuthActivity].
+     */
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [AuthActivityModule::class])
+    fun contributesAuthActivityInjector(): AuthActivity
 
     /**
      * Contributes an Android injector to [MainActivity].

@@ -38,6 +38,7 @@ ext {
                     appcompat: '1.1.0-rc01',
                     core: '1.2.0-alpha02',
                     constraintlayout: '2.0.0-beta2',
+                    lifecycle: '2.0.0-rc01',
                     navigation: '2.0.0',
                     preference: '1.0.0',
             ],
