@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.codepunk.core.viewmodel
+package com.codepunk.core.di.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

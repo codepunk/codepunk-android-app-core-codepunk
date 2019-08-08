@@ -17,8 +17,7 @@
 
 package com.codepunk.core.di.module
 
-import com.codepunk.core.presentation.auth.AuthActivity
-import com.codepunk.core.presentation.auth.AuthFragment
+import com.codepunk.core.presentation.auth.*
 import com.codepunk.doofenschmirtz.di.scope.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -36,15 +35,29 @@ abstract class AuthActivityModule {
      * Contributes an AndroidInjector to [AuthFragment].
      */
     @FragmentScope
-    @ContributesAndroidInjector(
-        modules = [
-            AuthFragmentModule::class,
-            ForgotPasswordFragmentModule::class,
-            LogInFragmentModule::class,
-            SignUpFragmentModule::class
-        ]
-    )
+    @ContributesAndroidInjector(modules = [AuthFragmentModule::class])
     abstract fun contributeAuthFragmentInjector(): AuthFragment
+
+    /**
+     * Contributes an AndroidInjector to [ForgotPasswordFragment].
+     */
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [ForgotPasswordFragmentModule::class])
+    abstract fun contributeForgotPasswordFragmentInjector(): ForgotPasswordFragment
+
+    /**
+     * Contributes an AndroidInjector to [LogInFragment].
+     */
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [LogInFragmentModule::class])
+    abstract fun contributeLogInFragmentInjector(): LogInFragment
+
+    /**
+     * Contributes an AndroidInjector to [SignUpFragment].
+     */
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [SignUpFragmentModule::class])
+    abstract fun contributeSignUpFragmentInjector(): SignUpFragment
 
     // endregion Methods
 

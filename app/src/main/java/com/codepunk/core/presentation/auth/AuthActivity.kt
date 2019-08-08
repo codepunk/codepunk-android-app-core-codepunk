@@ -23,6 +23,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -36,17 +37,28 @@ import com.codepunk.core.BuildConfig.CATEGORY_LOG_IN
 import com.codepunk.core.BuildConfig.CATEGORY_SIGN_UP
 import com.codepunk.core.R
 import com.codepunk.core.databinding.ActivityAuthBinding
-import com.codepunk.core.viewmodel.ViewModelFactory
+import com.codepunk.core.di.factory.ViewModelFactory
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 /**
  * An Activity that handles all actions relating to creating, selecting, and authenticating
  * an account.
  */
-class AuthActivity : AppCompatActivity() {
+class AuthActivity :
+    AppCompatActivity(),
+    HasSupportFragmentInjector {
 
     // region Properties
+
+    /**
+     * Performs dependency injection on fragments.
+     */
+    @Inject
+    lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     /**
      * The Android account manager.
@@ -167,6 +179,17 @@ class AuthActivity : AppCompatActivity() {
         navController.navigateUp() || super.onSupportNavigateUp()
 
     // endregion Inherited methods
+
+    // region Implemented methods
+
+    /**
+     * Implementation of [HasSupportFragmentInjector]. Returns a
+     * [DispatchingAndroidInjector] that injects dependencies into fragments.
+     */
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> =
+        fragmentDispatchingAndroidInjector
+
+    // endregion Implemented methods
 
     // region Methods
 

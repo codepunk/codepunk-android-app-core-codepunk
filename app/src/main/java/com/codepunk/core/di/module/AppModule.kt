@@ -64,7 +64,7 @@ object AppModule {
     @JvmStatic
     @Provides
     @Singleton
-    fun providesLoginator(): FormattingLoginator = FormattingLoginator(LogcatLoginator()).apply {
+    fun providesLoginator(): FormattingLoginator = FormattingLoginator().apply {
         level = LOG_LEVEL
     }
 

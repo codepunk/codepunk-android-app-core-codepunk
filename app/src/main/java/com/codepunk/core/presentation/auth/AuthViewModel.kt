@@ -18,18 +18,59 @@
 package com.codepunk.core.presentation.auth
 
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
 import com.codepunk.core.CodepunkApp
 import com.codepunk.core.domain.model.OAuthToken
+import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.borrowed.modified.example.github.vo.Resource
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(app: CodepunkApp) : AndroidViewModel(app) {
+/**
+ * A [ViewModel] for managing authorization-related data.
+ */
+class AuthViewModel @Inject constructor(
+
+    app: CodepunkApp,
+
+    private val authRepository: AuthRepository
+
+) : AndroidViewModel(app) {
 
     // region Properties
 
+    /**
+     * A [LiveData] holding the [OAuthToken] relating to the current authentication attempt.
+     */
     val authResource = MediatorLiveData<Resource<OAuthToken>>()
 
+    /**
+     * A private [LiveData] holding the current source supplying the value to [authResource].
+     */
+    private var authSource: LiveData<Resource<OAuthToken>>? = null
+        private set(value) {
+            if (field != value) {
+                field?.also { source -> authResource.removeSource(source) }
+                field = value?.apply {
+                    authResource.addSource(this) { value ->
+                        authResource.value = value
+                    }
+                }
+            }
+        }
+
     // endregion Properties
+
+    // region Methods
+
+    /**
+     * Authenticates using username (or email) and password.
+     */
+    fun authenticate(usernameOrEmail: String, password: String) {
+        authSource = authRepository.authenticate(usernameOrEmail, password)
+    }
+
+    // endregion Methods
 
 }
