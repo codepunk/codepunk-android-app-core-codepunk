@@ -35,6 +35,7 @@ import com.codepunk.core.di.factory.ViewModelFactory
 import com.codepunk.core.domain.model.OAuthToken
 import com.codepunk.doofenschmirtz.borrowed.modified.example.github.vo.Resource
 import dagger.android.support.AndroidSupportInjection
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -113,10 +114,14 @@ class LogInFragment :
      * Responds to click events.
      */
     override fun onClick(v: View?) {
-        authViewModel.authenticate(
-            binding.usernameOrEmailEdit.text.toString(),
-            binding.passwordEdit.text.toString()
-        )
+        when (v) {
+            binding.logInBtn -> {
+                authViewModel.authenticate(
+                    binding.usernameOrEmailEdit.text.toString(),
+                    binding.passwordEdit.text.toString()
+                )
+            }
+        }
     }
 
     // endregion Implemented methods
