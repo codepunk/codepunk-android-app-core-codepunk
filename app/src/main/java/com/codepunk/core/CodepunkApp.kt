@@ -26,7 +26,6 @@ import androidx.preference.PreferenceManager
 import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_AUTH_ENVIRONMENT
 import com.codepunk.core.BuildConfig.PREF_KEY_DEV_OPTIONS_BASE_URL
 import com.codepunk.core.di.component.DaggerAppComponent
-import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.UrlOverrideInterceptor
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -91,12 +90,6 @@ class CodepunkApp :
      */
     @Inject
     lateinit var urlOverrideInterceptor: UrlOverrideInterceptor
-
-    /**
-     * A [FormattingLoginator] for logging system events.
-     */
-    @Inject
-    lateinit var loginator: FormattingLoginator
 
     // endregion Properties
 

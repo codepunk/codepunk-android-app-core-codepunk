@@ -25,20 +25,19 @@ import com.codepunk.core.data.local.dao.UserDao
 import com.codepunk.core.data.mapper.toDomain
 import com.codepunk.core.data.mapper.toLocal
 import com.codepunk.core.data.remote.entity.RemoteOAuthToken
-import com.codepunk.core.data.remote.entity.RemoteUser
+import com.codepunk.core.data.remote.entity.RemoteSession
 import com.codepunk.core.data.remote.webservice.AuthWebservice
 import com.codepunk.core.data.remote.webservice.UserWebservice
 import com.codepunk.core.domain.model.Message
 import com.codepunk.core.domain.model.OAuthToken
 import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiErrorResponse
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiSuccessResponse
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.repository.NetworkBoundResource
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.util.AbsentLiveData
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiErrorResponse
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiResponse
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiSuccessResponse
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.repository.NetworkBoundResource
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.vo.Resource
-import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Resource
 import retrofit2.Response
 import retrofit2.Retrofit
 
@@ -76,12 +75,7 @@ class AuthRepositoryImpl(
     /**
      * An instance of [UserDao] for storing the currently-authenticated user in the local database.
      */
-    private val userDao: UserDao,
-
-    /**
-     * An instance of [FormattingLoginator] for logging messages.
-     */
-    private val loginator: FormattingLoginator
+    private val userDao: UserDao
 
 ) : AuthRepository {
 
@@ -99,7 +93,6 @@ class AuthRepositoryImpl(
         authWebservice,
         userWebservice,
         userDao,
-        loginator,
         usernameOrEmail,
         password
     ).asLiveData()
@@ -131,10 +124,9 @@ class AuthRepositoryImpl(
         private val authWebservice: AuthWebservice,
         private val userWebservice: UserWebservice,
         private val userDao: UserDao,
-        private val loginator: FormattingLoginator,
         private val usernameOrEmail: String,
         private val password: String
-    ) : NetworkBoundResource<OAuthToken, Pair<RemoteOAuthToken, RemoteUser>>(
+    ) : NetworkBoundResource<OAuthToken, RemoteSession>(
         appExecutors
     ) {
 
@@ -150,12 +142,12 @@ class AuthRepositoryImpl(
 
         // region Inherited methods
 
-        override fun saveCallResult(item: Pair<RemoteOAuthToken, RemoteUser>) {
+        override fun saveCallResult(item: RemoteSession) {
             // Worker thread
-            savedOAuthToken = item.first
-            val id = userDao.upsert(item.second.toLocal())
+            savedOAuthToken = item.token
+            val id = userDao.upsert(item.user.toLocal())
             sharedPreferences.edit()
-                .putString(BuildConfig.PREF_KEY_AUTHENTICATED_USERNAME, item.second.username)
+                .putString(BuildConfig.PREF_KEY_AUTHENTICATED_USERNAME, item.user.username)
                 .apply()
         }
 
@@ -169,9 +161,9 @@ class AuthRepositoryImpl(
             } ?: AbsentLiveData.create()
         }
 
-        override fun createCall(): LiveData<ApiResponse<Pair<RemoteOAuthToken, RemoteUser>>> {
+        override fun createCall(): LiveData<ApiResponse<RemoteSession>> {
             // Main thread
-            val data = MutableLiveData<ApiResponse<Pair<RemoteOAuthToken, RemoteUser>>>()
+            val data = MutableLiveData<ApiResponse<RemoteSession>>()
 
             authWebservice.authenticate(usernameOrEmail, password).observeForever { authResponse ->
                 when (authResponse) {
@@ -180,19 +172,18 @@ class AuthRepositoryImpl(
                         userWebservice.getUser(token.authToken).observeForever { userResponse ->
                             when (userResponse) {
                                 is ApiSuccessResponse -> {
-                                    val pair: Pair<RemoteOAuthToken, RemoteUser> =
-                                        Pair(token, userResponse.body)
-                                    val apiResponse = ApiResponse.create(Response.success(pair))
+                                    val session = RemoteSession(token, userResponse.body)
+                                    val apiResponse = ApiResponse.create(Response.success(session))
                                     data.value = apiResponse
                                 }
                                 is ApiErrorResponse -> {
-                                    data.value = ApiErrorResponse(userResponse)
+                                    data.value = ApiErrorResponse(userResponse.response)
                                 }
                             }
                         }
                     }
                     is ApiErrorResponse -> {
-                        data.value = ApiErrorResponse(authResponse)
+                        data.value = ApiErrorResponse(authResponse.response)
                     }
                 }
             }

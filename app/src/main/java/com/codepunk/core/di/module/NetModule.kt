@@ -28,14 +28,13 @@ import com.codepunk.core.data.repository.AuthRepositoryImpl
 import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.auth.AuthManager
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.util.LiveDataCallAdapterFactory
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.util.LiveDataCallAdapterFactory
 import com.codepunk.doofenschmirtz.data.remote.moshi.adapter.BooleanIntAdapter
 import com.codepunk.doofenschmirtz.data.remote.moshi.adapter.DateJsonAdapter
 import com.codepunk.doofenschmirtz.data.remote.moshi.converter.MoshiEnumConverterFactory
 import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.AuthorizationInterceptor
 import com.codepunk.doofenschmirtz.data.remote.retrofit.interceptor.UrlOverrideInterceptor
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
-import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -214,16 +213,14 @@ class NetModule {
         retrofit: Retrofit,
         authWebservice: AuthWebservice,
         userWebservice: UserWebservice,
-        userDao: UserDao,
-        loginator: FormattingLoginator
+        userDao: UserDao
     ): AuthRepository = AuthRepositoryImpl(
         sharedPreferences,
         appExecutors,
         retrofit,
         authWebservice,
         userWebservice,
-        userDao,
-        loginator
+        userDao
     )
 
     // endregion Methods

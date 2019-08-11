@@ -33,9 +33,9 @@ import com.codepunk.core.R
 import com.codepunk.core.databinding.FragmentLogInBinding
 import com.codepunk.core.di.factory.ViewModelFactory
 import com.codepunk.core.domain.model.OAuthToken
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.vo.Resource
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Resource
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Status
 import dagger.android.support.AndroidSupportInjection
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -130,6 +130,9 @@ class LogInFragment :
 
     private fun onToken(resource: Resource<OAuthToken>) {
         Loginator.d("resource=$resource")
+        if (resource.status == Status.ERROR) {
+
+        }
     }
 
     // endregion Methods

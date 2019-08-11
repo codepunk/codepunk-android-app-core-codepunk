@@ -30,7 +30,6 @@ import com.codepunk.core.R
 import com.codepunk.core.databinding.FragmentMainBinding
 import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.core.domain.session.SessionManager
-import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -50,13 +49,6 @@ class MainFragment :
      */
     @Inject
     lateinit var sessionManager: SessionManager
-
-    /**
-     * The application [FormattingLoginator].
-     */
-    @Suppress("UNUSED")
-    @Inject
-    lateinit var loginator: FormattingLoginator
 
     /**
      * TODO TEMP

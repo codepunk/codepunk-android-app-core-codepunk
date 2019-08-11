@@ -31,9 +31,6 @@ import com.codepunk.doofenschmirtz.auth.AuthManager.Environment
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
 import com.codepunk.doofenschmirtz.di.qualifier.ApplicationContext
 import com.codepunk.doofenschmirtz.di.qualifier.MainThreadExecutor
-import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
-import com.codepunk.doofenschmirtz.inator.loginator.LogcatLoginator
-import com.codepunk.doofenschmirtz.inator.loginator.Loginator
 import dagger.Module
 import dagger.Provides
 import java.util.concurrent.Executor
@@ -57,16 +54,6 @@ object AppModule {
     @Singleton
     @ApplicationContext
     fun providesContext(app: CodepunkApp): Context = app
-
-    /**
-     * Provides the application-level [Loginator].
-     */
-    @JvmStatic
-    @Provides
-    @Singleton
-    fun providesLoginator(): FormattingLoginator = FormattingLoginator().apply {
-        level = LOG_LEVEL
-    }
 
     /**
      * Provides an [AccountManager] instance for providing access to a centralized registry of

@@ -24,7 +24,7 @@ import androidx.lifecycle.ViewModel
 import com.codepunk.core.CodepunkApp
 import com.codepunk.core.domain.model.OAuthToken
 import com.codepunk.core.domain.repository.AuthRepository
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.vo.Resource
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Resource
 import javax.inject.Inject
 
 /**

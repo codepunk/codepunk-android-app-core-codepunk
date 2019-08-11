@@ -21,7 +21,7 @@ import androidx.lifecycle.LiveData
 import com.codepunk.core.data.remote.entity.RemoteUser
 import com.codepunk.core.domain.model.User
 import com.codepunk.core.domain.session.Session
-import com.codepunk.doofenschmirtz.borrowed.modified.example.github.api.ApiResponse
+import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
 import com.codepunk.doofenschmirtz.data.remote.HEADER_ACCEPT_APPLICATION_JSON
 import com.codepunk.doofenschmirtz.data.remote.HEADER_AUTHORIZATION_BEARER
 import com.codepunk.doofenschmirtz.data.remote.HEADER_NAME_TEMP_AUTH_TOKEN

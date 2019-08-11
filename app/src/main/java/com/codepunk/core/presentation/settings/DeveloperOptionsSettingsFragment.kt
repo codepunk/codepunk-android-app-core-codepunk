@@ -31,7 +31,6 @@ import com.codepunk.doofenschmirtz.app.AlertDialogFragment
 import com.codepunk.doofenschmirtz.app.AlertDialogFragment.Companion.RESULT_POSITIVE
 import com.codepunk.doofenschmirtz.auth.AuthManager
 import com.codepunk.doofenschmirtz.preference.TwoTargetSwitchPreference
-import com.codepunk.doofenschmirtz.inator.loginator.FormattingLoginator
 import com.codepunk.doofenschmirtz.inator.makeKey
 import javax.inject.Inject
 
@@ -59,12 +58,6 @@ class DeveloperOptionsSettingsFragment :
      */
     @Inject
     lateinit var authManager: AuthManager
-
-    /**
-     * The application [FormattingLoginator].
-     */
-    @Inject
-    lateinit var loginator: FormattingLoginator
 
     /**
      * The API environment preference.
