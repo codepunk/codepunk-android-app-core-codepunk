@@ -18,7 +18,7 @@
 package com.codepunk.core.domain.repository
 
 import androidx.lifecycle.LiveData
-import com.codepunk.core.domain.model.Message
+import com.codepunk.core.domain.model.NetworkMessage
 import com.codepunk.core.domain.model.OAuthToken
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.vo.Resource
 
@@ -46,21 +46,21 @@ interface AuthRepository {
         email: String,
         password: String,
         passwordConfirmation: String
-    ): LiveData<Resource<Message>>
+    ): LiveData<Resource<NetworkMessage>>
 
     /**
      * Sends an activation link to the supplied [email].
      */
     fun sendActivationLink(
         email: String
-    ): LiveData<Resource<Message>>
+    ): LiveData<Resource<NetworkMessage>>
 
     /**
      * Sends a password reset link to the supplied [email].
      */
     fun sendPasswordResetLink(
         email: String
-    ): LiveData<Resource<Message>>
+    ): LiveData<Resource<NetworkMessage>>
 
     // endregion Methods
 

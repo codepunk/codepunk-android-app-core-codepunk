@@ -208,15 +208,15 @@ class NetModule {
     @Provides
     @Singleton
     fun providesAuthRepository(
-        sharedPreferences: SharedPreferences,
         appExecutors: AppExecutors,
+        sharedPreferences: SharedPreferences,
         retrofit: Retrofit,
         authWebservice: AuthWebservice,
         userWebservice: UserWebservice,
         userDao: UserDao
     ): AuthRepository = AuthRepositoryImpl(
-        sharedPreferences,
         appExecutors,
+        sharedPreferences,
         retrofit,
         authWebservice,
         userWebservice,

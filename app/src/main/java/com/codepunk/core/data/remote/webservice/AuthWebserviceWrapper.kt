@@ -20,12 +20,12 @@ package com.codepunk.core.data.remote.webservice
 import androidx.lifecycle.LiveData
 import com.codepunk.core.BuildConfig
 import com.codepunk.core.data.remote.entity.RemoteOAuthToken
-import com.codepunk.core.data.remote.entity.RemoteMessage
+import com.codepunk.core.data.remote.entity.RemoteNetworkMessage
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
 import com.codepunk.doofenschmirtz.domain.model.GrantType
 
 /**
- * TODO: Replace all CODEPUNK_LOCAL_CLIENT_ID/CODEPUNK_LOCAL_CLIENT_SECRET with current somehow
+ * Later TODO: Replace all CODEPUNK_LOCAL_CLIENT_ID/CODEPUNK_LOCAL_CLIENT_SECRET with current somehow
  */
 
 // region Constants
@@ -112,13 +112,13 @@ class AuthWebserviceWrapper(private val base: AuthWebservice) :
         email: String,
         password: String,
         passwordConfirmation: String
-    ): LiveData<ApiResponse<RemoteMessage>> =
+    ): LiveData<ApiResponse<RemoteNetworkMessage>> =
         base.register(username, email, password, passwordConfirmation)
 
-    override fun sendActivationLink(email: String): LiveData<ApiResponse<RemoteMessage>> =
+    override fun sendActivationLink(email: String): LiveData<ApiResponse<RemoteNetworkMessage>> =
         base.sendActivationLink(email)
 
-    override fun sendPasswordResetLink(email: String): LiveData<ApiResponse<RemoteMessage>> =
+    override fun sendPasswordResetLink(email: String): LiveData<ApiResponse<RemoteNetworkMessage>> =
         base.sendPasswordResetLink(email)
 
     // endregion Inherited methods

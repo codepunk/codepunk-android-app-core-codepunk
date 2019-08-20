@@ -204,9 +204,10 @@ class AuthActivity :
             when {
                 contains(CATEGORY_CHOOSE) -> {
 
-                    // TODO Clean up
-                    // TODO If there's only one account and it's the current one,
-                    // then change action to R.id.action_auth_to_register
+                    /* TODO Clean up
+                     * If there's only one account and it's the current one,
+                     * then change action to R.id.action_auth_to_register
+                     */
 
                     // 2) Get all saved accounts for type AUTHENTICATOR_ACCOUNT_TYPE
                     val type: String = BuildConfig.AUTHENTICATOR_ACCOUNT_TYPE

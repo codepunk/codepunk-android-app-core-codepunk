@@ -63,7 +63,7 @@ private const val AUTHENTICATE_REQUEST_CODE = 3
 private const val DEV_OPTS_CLICKS_TO_UNLOCK: Int = 7
 
 /**
- * The number of clicks remaining at which to show a [Toast] message.
+ * The number of clicks remaining at which to show a [Toast] text.
  */
 private const val DEV_OPTS_CLICKS_REMAINING_TOAST = 3
 
@@ -217,7 +217,7 @@ class MainSettingsFragment :
                 Activity.RESULT_OK -> {
                     when (data?.getParcelableExtra<Account>(KEY_ACCOUNT)) {
                         null -> {
-                            // TODO Show error message then finish? OR show the msg in openSession activity dismiss?
+                            // TODO Show error text then finish? OR show the msg in openSession activity dismiss?
                             // requireActivity().finish()
                         }
                         else -> { /* TODO sessionManager.getSession(silentMode = false, refresh = true) */

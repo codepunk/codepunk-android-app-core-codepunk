@@ -24,11 +24,13 @@ import com.codepunk.core.BuildConfig
 import com.codepunk.core.data.local.dao.UserDao
 import com.codepunk.core.data.mapper.toDomain
 import com.codepunk.core.data.mapper.toLocal
+import com.codepunk.core.data.remote.entity.RemoteNetworkMessage
 import com.codepunk.core.data.remote.entity.RemoteOAuthToken
 import com.codepunk.core.data.remote.entity.RemoteSession
 import com.codepunk.core.data.remote.webservice.AuthWebservice
 import com.codepunk.core.data.remote.webservice.UserWebservice
-import com.codepunk.core.domain.model.Message
+import com.codepunk.core.domain.NetworkException
+import com.codepunk.core.domain.model.NetworkMessage
 import com.codepunk.core.domain.model.OAuthToken
 import com.codepunk.core.domain.repository.AuthRepository
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.AppExecutors
@@ -48,14 +50,14 @@ import retrofit2.Retrofit
 class AuthRepositoryImpl(
 
     /**
-     * The application [SharedPreferences].
-     */
-    private val sharedPreferences: SharedPreferences,
-
-    /**
      * An instance of [AppExecutors] for maing auth-related API calls.
      */
     private val appExecutors: AppExecutors,
+
+    /**
+     * The application [SharedPreferences].
+     */
+    private val sharedPreferences: SharedPreferences,
 
     /**
      * An instance of [Retrofit] for error deserialization.
@@ -84,15 +86,11 @@ class AuthRepositoryImpl(
     // endregion Properties
 
     // region Implemented methods
+
     override fun authenticate(
         usernameOrEmail: String,
         password: String
     ): LiveData<Resource<OAuthToken>> = AuthenticateResource(
-        appExecutors,
-        sharedPreferences,
-        authWebservice,
-        userWebservice,
-        userDao,
         usernameOrEmail,
         password
     ).asLiveData()
@@ -102,15 +100,15 @@ class AuthRepositoryImpl(
         email: String,
         password: String,
         passwordConfirmation: String
-    ): LiveData<Resource<Message>> {
+    ): LiveData<Resource<NetworkMessage>> {
         TODO("not implemented")
     }
 
-    override fun sendActivationLink(email: String): LiveData<Resource<Message>> {
+    override fun sendActivationLink(email: String): LiveData<Resource<NetworkMessage>> {
         TODO("not implemented")
     }
 
-    override fun sendPasswordResetLink(email: String): LiveData<Resource<Message>> {
+    override fun sendPasswordResetLink(email: String): LiveData<Resource<NetworkMessage>> {
         TODO("not implemented")
     }
 
@@ -118,17 +116,10 @@ class AuthRepositoryImpl(
 
     // region Nested/inner classes
 
-    private class AuthenticateResource(
-        appExecutors: AppExecutors,
-        private val sharedPreferences: SharedPreferences,
-        private val authWebservice: AuthWebservice,
-        private val userWebservice: UserWebservice,
-        private val userDao: UserDao,
+    private inner class AuthenticateResource(
         private val usernameOrEmail: String,
         private val password: String
-    ) : NetworkBoundResource<OAuthToken, RemoteSession>(
-        appExecutors
-    ) {
+    ) : NetworkBoundResource<OAuthToken, RemoteSession>(appExecutors) {
 
         // region Properties
 
@@ -189,6 +180,18 @@ class AuthRepositoryImpl(
             }
 
             return data
+        }
+
+        override fun onFetchFailed(response: ApiErrorResponse<RemoteSession>): Throwable {
+            val remoteNetworkMessage: RemoteNetworkMessage? =
+                response.response?.errorBody()?.let { errorBody ->
+                    retrofit.responseBodyConverter<RemoteNetworkMessage>(
+                        RemoteNetworkMessage::class.java,
+                        arrayOf()
+                    ).convert(errorBody)
+                }
+            val networkMessage = remoteNetworkMessage?.toDomain()
+            return NetworkException(networkMessage, networkMessage?.text, response.error)
         }
 
         // endregion Inherited methods

@@ -23,6 +23,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -130,8 +131,24 @@ class LogInFragment :
 
     private fun onToken(resource: Resource<OAuthToken>) {
         Loginator.d("resource=$resource")
-        if (resource.status == Status.ERROR) {
-
+        when (resource.status) {
+            Status.SUCCESS -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Worked!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            Status.ERROR -> {
+                Toast.makeText(
+                    requireContext(),
+                    resource.error?.message ?: "Unknown error",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            else -> {
+                // No op
+            }
         }
     }
 

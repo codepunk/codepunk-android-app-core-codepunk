@@ -19,7 +19,7 @@ package com.codepunk.core.data.remote.webservice
 
 import androidx.lifecycle.LiveData
 import com.codepunk.core.data.remote.entity.RemoteOAuthToken
-import com.codepunk.core.data.remote.entity.RemoteMessage
+import com.codepunk.core.data.remote.entity.RemoteNetworkMessage
 import com.codepunk.doofenschmirtz.borrowed.android.example.github.api.ApiResponse
 import com.codepunk.doofenschmirtz.data.remote.HEADER_ACCEPT_APPLICATION_JSON
 import com.codepunk.doofenschmirtz.domain.model.GrantType
@@ -122,7 +122,7 @@ interface AuthWebservice {
 
         @Field("password_confirmation")
         passwordConfirmation: String
-    ): LiveData<ApiResponse<RemoteMessage>>
+    ): LiveData<ApiResponse<RemoteNetworkMessage>>
 
     /**
      * Sends an activation link to the supplied [email].
@@ -133,7 +133,7 @@ interface AuthWebservice {
     fun sendActivationLink(
         @Field("email")
         email: String
-    ): LiveData<ApiResponse<RemoteMessage>>
+    ): LiveData<ApiResponse<RemoteNetworkMessage>>
 
     /**
      * Sends a password reset link to the supplied [email].
@@ -144,7 +144,7 @@ interface AuthWebservice {
     fun sendPasswordResetLink(
         @Field("email")
         email: String
-    ): LiveData<ApiResponse<RemoteMessage>>
+    ): LiveData<ApiResponse<RemoteNetworkMessage>>
 
     // endregion Methods
 
