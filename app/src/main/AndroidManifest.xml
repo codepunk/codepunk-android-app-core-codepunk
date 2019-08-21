@@ -95,6 +95,24 @@
 
         <!-- endregion Activities -->
 
+        <!-- region Services -->
+
+        <service
+            android:name=".account.AuthenticatorService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService"> <!-- TODO Permission? Exported = false? -->
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+
+        <!-- endregion Services -->
+
     </application>
 
     <!-- endregion Application -->
